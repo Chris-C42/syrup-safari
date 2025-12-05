@@ -408,6 +408,17 @@ h3 { font-size: 1.125rem; }
     opacity: 0.85;
 }
 
+/* Generative art background for cards */
+.card-art-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-art-bg::before {
+    display: none; /* Hide the overlay for art backgrounds */
+}
+
 .card-rating {
     position: relative;
     display: flex;
@@ -1043,6 +1054,13 @@ h3 { font-size: 1.125rem; }
     right: 0;
     bottom: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+}
+
+/* Generative art background for detail header */
+.detail-art-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .detail-name {

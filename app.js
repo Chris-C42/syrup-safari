@@ -39,6 +39,111 @@ let filterState = {
     search: ''
 };
 
+// =============================================
+// EXTENDED COLOR NAME DATABASE
+// =============================================
+// Comprehensive color database for better color suggestions
+const colorDatabase = {
+    // Reds & Pinks
+    'crimson': '#dc143c', 'ruby': '#e0115f', 'scarlet': '#ff2400', 'cherry': '#de3163',
+    'raspberry': '#e30b5c', 'strawberry': '#fc5a8d', 'rose': '#ff007f', 'coral': '#ff7f50',
+    'salmon': '#fa8072', 'blush': '#de5d83', 'rouge': '#a94064', 'burgundy': '#800020',
+    'maroon': '#800000', 'garnet': '#733635', 'wine': '#722f37', 'cranberry': '#9e003a',
+    'raspberry': '#e30b5d', 'magenta': '#ff00ff', 'fuchsia': '#ff00ff', 'cerise': '#de3163',
+    'carnation': '#ffa6c9', 'flamingo': '#fc8eac', 'watermelon': '#fd4659', 'pomegranate': '#c41e3a',
+
+    // Oranges
+    'orange': '#ffa500', 'tangerine': '#ff9966', 'peach': '#ffcba4', 'apricot': '#fbceb1',
+    'cantaloupe': '#ffa62f', 'mango': '#ff8243', 'papaya': '#ffefd5', 'carrot': '#ed9121',
+    'pumpkin': '#ff7518', 'amber': '#ffbf00', 'marigold': '#eaa221', 'rust': '#b7410e',
+    'terracotta': '#e2725b', 'copper': '#b87333', 'ginger': '#b06500', 'cinnamon': '#d2691e',
+    'sienna': '#a0522d', 'persimmon': '#ec5800', 'clementine': '#e96e00', 'nectarine': '#ff6347',
+
+    // Yellows & Golds
+    'yellow': '#ffff00', 'lemon': '#fff44f', 'gold': '#ffd700', 'canary': '#ffef00',
+    'banana': '#ffe135', 'butter': '#fffacd', 'cream': '#fffdd0', 'honey': '#eb9605',
+    'mustard': '#ffdb58', 'saffron': '#f4c430', 'sunflower': '#ffda03', 'daffodil': '#ffff31',
+    'champagne': '#f7e7ce', 'flax': '#eedc82', 'maize': '#fbec5d', 'goldenrod': '#daa520',
+    'turmeric': '#ffc40c', 'citrine': '#e4d00a', 'primrose': '#f6edc3', 'blonde': '#faf0be',
+
+    // Greens
+    'green': '#008000', 'lime': '#32cd32', 'mint': '#98ff98', 'sage': '#bcb88a',
+    'olive': '#808000', 'emerald': '#50c878', 'jade': '#00a86b', 'forest': '#228b22',
+    'hunter': '#355e3b', 'basil': '#5d8347', 'herb': '#4f7942', 'fern': '#4f7942',
+    'moss': '#8a9a5b', 'pine': '#01796f', 'eucalyptus': '#44d7a8', 'seafoam': '#93e9be',
+    'pistachio': '#93c572', 'avocado': '#568203', 'kiwi': '#8ee53f', 'pickle': '#7b8b3a',
+    'shamrock': '#009e60', 'clover': '#384910', 'grass': '#7cfc00', 'chartreuse': '#7fff00',
+    'spruce': '#2e8b57', 'juniper': '#3a5f0b', 'seaweed': '#2e8b57', 'matcha': '#c5e17a',
+    'cucumber': '#77ab59', 'celery': '#b4c424', 'asparagus': '#7ba05b', 'spinach': '#3b7a57',
+    'rosemary': '#5e8c6a', 'thyme': '#7d8471', 'cilantro': '#4a7023', 'dill': '#6b8e23',
+
+    // Blues
+    'blue': '#0000ff', 'navy': '#000080', 'azure': '#007fff', 'sky': '#87ceeb',
+    'ocean': '#4f42b5', 'cobalt': '#0047ab', 'sapphire': '#0f52ba', 'royal': '#4169e1',
+    'cerulean': '#007ba7', 'indigo': '#4b0082', 'teal': '#008080', 'turquoise': '#40e0d0',
+    'aqua': '#00ffff', 'cyan': '#00ffff', 'periwinkle': '#ccccff', 'cornflower': '#6495ed',
+    'steel': '#4682b4', 'powder': '#b0e0e6', 'ice': '#e0ffff', 'slate': '#708090',
+    'blueberry': '#4f86f7', 'denim': '#1560bd', 'midnight': '#191970', 'twilight': '#4e5180',
+    'arctic': '#82a7cd', 'glacier': '#80b3c4', 'pacific': '#1c6b8a', 'aegean': '#1f456e',
+
+    // Purples & Violets
+    'purple': '#800080', 'violet': '#ee82ee', 'lavender': '#e6e6fa', 'lilac': '#c8a2c8',
+    'plum': '#dda0dd', 'mauve': '#e0b0ff', 'orchid': '#da70d6', 'amethyst': '#9966cc',
+    'grape': '#6f2da8', 'eggplant': '#614051', 'mulberry': '#c54b8c', 'boysenberry': '#873260',
+    'heather': '#b7a8b8', 'wisteria': '#c9a0dc', 'iris': '#5a4fcf', 'petunia': '#9878b0',
+    'hibiscus': '#b6316c', 'elderflower': '#f9f7f3', 'thistle': '#d8bfd8', 'periwinkle': '#c3cde6',
+    'hyacinth': '#8b5cf6', 'crocus': '#9e4f88', 'foxglove': '#b65fcf', 'verbena': '#ad8de7',
+
+    // Browns & Neutrals
+    'brown': '#a52a2a', 'chocolate': '#7b3f00', 'coffee': '#6f4e37', 'espresso': '#3c2415',
+    'mocha': '#967969', 'caramel': '#ffd59a', 'toffee': '#755139', 'maple': '#c9884b',
+    'hazel': '#8e7618', 'chestnut': '#954535', 'mahogany': '#c04000', 'walnut': '#773f1a',
+    'cacao': '#3d1c02', 'cocoa': '#d2691e', 'tan': '#d2b48c', 'beige': '#f5f5dc',
+    'sand': '#c2b280', 'khaki': '#c3b091', 'wheat': '#f5deb3', 'oat': '#f8f0dc',
+    'almond': '#efdecd', 'biscuit': '#d6c5a9', 'taupe': '#483c32', 'umber': '#635147',
+    'sepia': '#704214', 'acorn': '#7d5a4f', 'pecan': '#845b3c', 'hazelnut': '#a67b5b',
+
+    // Whites & Creams
+    'white': '#ffffff', 'ivory': '#fffff0', 'pearl': '#f0ead6', 'vanilla': '#f3e5ab',
+    'eggshell': '#f0ead6', 'snow': '#fffafa', 'cotton': '#fbfbfb', 'coconut': '#fff1e0',
+    'milk': '#fdfff5', 'linen': '#faf0e6', 'rice': '#faf0d1', 'cloud': '#f0f8ff',
+    'bone': '#e3dac9', 'porcelain': '#f0ebe3', 'flour': '#f5f0eb', 'sugar': '#fffafa',
+
+    // Grays & Blacks
+    'gray': '#808080', 'grey': '#808080', 'silver': '#c0c0c0', 'charcoal': '#36454f',
+    'slate': '#708090', 'ash': '#b2beb5', 'stone': '#928e85', 'graphite': '#383838',
+    'iron': '#48494b', 'pewter': '#96a3ab', 'nickel': '#727472', 'smoke': '#848884',
+    'black': '#000000', 'onyx': '#353935', 'jet': '#343434', 'obsidian': '#3d3d3d',
+
+    // Florals & Botanicals
+    'chamomile': '#e8e4d4', 'jasmine': '#f8de7e', 'gardenia': '#fff9ef', 'magnolia': '#f8f4ff',
+    'peony': '#ff91a4', 'tulip': '#ff878d', 'dahlia': '#d8a903', 'zinnia': '#f4722b',
+    'chrysanthemum': '#ffb200', 'poppy': '#e35335', 'daisy': '#ffff99', 'sunflower': '#ffda03',
+    'violet': '#8f00ff', 'pansy': '#5946b2', 'snapdragon': '#f19cbb', 'ranunculus': '#f88379',
+    'anemone': '#de5d83', 'camellia': '#e4007c', 'azalea': '#f19cbb', 'rhododendron': '#cc3366',
+    'geranium': '#d73b3e', 'begonia': '#fa6775', 'impatiens': '#ff6f61', 'primrose': '#eedcb3',
+
+    // Food & Drinks
+    'tea': '#ca8d5d', 'chai': '#b97f4f', 'earl': '#7b6f7b', 'matcha': '#9dc183',
+    'latte': '#c6a664', 'cappuccino': '#a67b5b', 'espresso': '#3c2415', 'americano': '#6f4e37',
+    'beer': '#f5a623', 'ale': '#964b00', 'stout': '#362d26', 'whiskey': '#d59563',
+    'brandy': '#87413f', 'cognac': '#9a463d', 'rum': '#81613c', 'bourbon': '#af6e4d',
+    'wine': '#722f37', 'merlot': '#7f1734', 'cabernet': '#4c0013', 'rosé': '#ffb7c3',
+    'sangria': '#8e1c3a', 'port': '#5c003c', 'sherry': '#b47747',
+
+    // Herbs & Spices
+    'cardamom': '#a4be7b', 'clove': '#683e3a', 'nutmeg': '#a87b5e', 'allspice': '#7d5d3b',
+    'cumin': '#d4a056', 'coriander': '#9eb23b', 'paprika': '#b22222', 'cayenne': '#8b0000',
+    'pepper': '#3b3b3b', 'salt': '#f8f8ff', 'oregano': '#6b8e23', 'parsley': '#2e8b57',
+    'tarragon': '#87a96b', 'anise': '#e0c8ac', 'fennel': '#a3d977', 'bay': '#4d5d4a',
+
+    // Seasonal
+    'autumn': '#eb9605', 'fall': '#cc7722', 'spring': '#a7fc00', 'summer': '#ffbd31',
+    'winter': '#a6e2e5', 'frost': '#e6f2ff', 'harvest': '#da9100', 'holiday': '#c30f16',
+    'gingerbread': '#b5651d', 'peppermint': '#e2f0d9', 'eggnog': '#f9e8c9', 'candy': '#ff69b4',
+    'cider': '#b5651d', 'spiced': '#8b4513'
+};
+
 // Color suggestions based on keywords
 const colorKeywords = {
     // Florals - soft pinks and purples
@@ -303,9 +408,11 @@ function renderSyrups() {
         elements.emptyState.classList.add('hidden');
     } else {
         elements.emptyState.classList.add('hidden');
-        elements.syrupGrid.innerHTML = filtered.map((syrup, index) => `
+        elements.syrupGrid.innerHTML = filtered.map((syrup, index) => {
+            const artBackground = generateSyrupBackground(syrup.color, syrup.id);
+            return `
             <div class="syrup-card" data-id="${syrup.id}" style="animation-delay: ${index * 0.05}s">
-                <div class="card-color-bar" style="background: ${syrup.color}">
+                <div class="card-color-bar card-art-bg" style="background-image: url('${artBackground}')">
                     <div class="card-rating">
                         ${renderHearts(syrup.rating, true)}
                     </div>
@@ -320,7 +427,7 @@ function renderSyrups() {
                     ` : ''}
                 </div>
             </div>
-        `).join('');
+        `}).join('');
 
         // Add click handlers
         elements.syrupGrid.querySelectorAll('.syrup-card').forEach(card => {
@@ -417,15 +524,31 @@ function generatePastelFromName(name) {
 
 function suggestColor(name) {
     const lower = name.toLowerCase();
+    const words = lower.split(/\s+/);
 
-    // First, check keyword matches for known ingredients
+    // First, check extended color database for exact word matches (most accurate)
+    for (const word of words) {
+        if (colorDatabase[word]) {
+            // Found a match - soften it to fit our pastel theme
+            return softenToPastel(colorDatabase[word]);
+        }
+    }
+
+    // Second, check partial matches in extended database
+    for (const [colorName, hex] of Object.entries(colorDatabase)) {
+        if (lower.includes(colorName)) {
+            return softenToPastel(hex);
+        }
+    }
+
+    // Third, fall back to curated pastel keywords for common syrup ingredients
     for (const [keyword, color] of Object.entries(colorKeywords)) {
         if (lower.includes(keyword)) {
             return color;
         }
     }
 
-    // No keyword match - generate a unique pastel from the name
+    // No match found - generate a unique pastel from the name
     return generatePastelFromName(name);
 }
 
@@ -457,6 +580,300 @@ function setColor(color, animate = false) {
             elements.colorPreview.classList.remove('pulse');
         }, 600);
     }
+}
+
+// =============================================
+// COLOR PALETTE GENERATION
+// =============================================
+
+// Convert hex to HSL
+function hexToHsl(hex) {
+    let r = parseInt(hex.slice(1, 3), 16) / 255;
+    let g = parseInt(hex.slice(3, 5), 16) / 255;
+    let b = parseInt(hex.slice(5, 7), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0;
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+            case g: h = ((b - r) / d + 2) / 6; break;
+            case b: h = ((r - g) / d + 4) / 6; break;
+        }
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+// Soften a color to pastel while preserving hue identity
+function softenToPastel(hex) {
+    const hsl = hexToHsl(hex);
+    // Keep more saturation to preserve color identity, just lighten
+    const softS = Math.min(hsl.s * 0.55, 45); // Keep more saturation (was 0.4, 35)
+    const softL = 82 + (hsl.l / 100) * 10; // Lightness between 82-92%
+    return hslToHex(hsl.h, softS, Math.min(softL, 92));
+}
+
+// Generate a harmonious palette from a base color
+function generatePalette(baseHex) {
+    const hsl = hexToHsl(baseHex);
+    const palette = {
+        base: baseHex,
+        pastelBase: softenToPastel(baseHex),
+        colors: []
+    };
+
+    // Generate variations that preserve the base color's character
+    // Main pastel (strongest color presence)
+    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 40), 85);
+
+    // Lighter version of base
+    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.35, 30), 92);
+
+    // Analogous colors (nearby on color wheel) - keep some saturation
+    const analogous1 = hslToHex((hsl.h + 30) % 360, Math.min(hsl.s * 0.4, 35), 87);
+    const analogous2 = hslToHex((hsl.h - 30 + 360) % 360, Math.min(hsl.s * 0.4, 35), 89);
+
+    // Soft complementary accent
+    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.25, 20), 90);
+
+    // Warm neutral from theme
+    const warmNeutral = '#f5ebe0';
+
+    palette.colors = [
+        palette.pastelBase,  // 0: main color
+        mainPastel,          // 1: slightly different pastel
+        lightTint,           // 2: very light tint
+        analogous1,          // 3: nearby color 1
+        analogous2,          // 4: nearby color 2
+        complement,          // 5: soft accent
+        warmNeutral          // 6: warm background
+    ];
+
+    return palette;
+}
+
+// =============================================
+// GENERATIVE ART - FLOWING BLOBS
+// =============================================
+
+// Seeded random number generator for consistent results
+function seededRandom(seed) {
+    const x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// Generate smooth blob path using Bezier curves with shape variety
+function generateBlobPath(cx, cy, radius, points, seed, variation = 0.4, stretch = 1, rotation = 0) {
+    const angleStep = (Math.PI * 2) / points;
+    const controlPoints = [];
+
+    // Generate points around the center with random variation
+    for (let i = 0; i < points; i++) {
+        const angle = i * angleStep + rotation;
+        const radiusVar = radius * (1 + (seededRandom(seed + i) - 0.5) * variation);
+
+        // Apply stretch (elongation) - stretch > 1 makes it wider, < 1 makes it taller
+        const rx = radiusVar * stretch;
+        const ry = radiusVar / stretch;
+
+        // Calculate point with rotation
+        const baseX = Math.cos(angle) * rx;
+        const baseY = Math.sin(angle) * ry;
+
+        // Rotate the stretched point
+        const cosR = Math.cos(rotation);
+        const sinR = Math.sin(rotation);
+        const x = cx + baseX * cosR - baseY * sinR;
+        const y = cy + baseX * sinR + baseY * cosR;
+
+        controlPoints.push({ x, y });
+    }
+
+    // Create smooth curve through points
+    let path = `M ${controlPoints[0].x} ${controlPoints[0].y}`;
+
+    for (let i = 0; i < points; i++) {
+        const p0 = controlPoints[i];
+        const p1 = controlPoints[(i + 1) % points];
+        const p2 = controlPoints[(i + 2) % points];
+
+        // Calculate control points for smooth curve
+        const cp1x = p0.x + (p1.x - controlPoints[(i - 1 + points) % points].x) * 0.25;
+        const cp1y = p0.y + (p1.y - controlPoints[(i - 1 + points) % points].y) * 0.25;
+        const cp2x = p1.x - (p2.x - p0.x) * 0.25;
+        const cp2y = p1.y - (p2.y - p0.y) * 0.25;
+
+        path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p1.x} ${p1.y}`;
+    }
+
+    path += ' Z';
+    return path;
+}
+
+// Generate flowing wave path
+function generateWavePath(width, height, seed, amplitude = 20, frequency = 3) {
+    const points = [];
+    const steps = 20;
+
+    for (let i = 0; i <= steps; i++) {
+        const x = (i / steps) * width;
+        const baseY = height * 0.5;
+        const wave1 = Math.sin((i / steps) * Math.PI * frequency + seededRandom(seed) * Math.PI) * amplitude;
+        const wave2 = Math.sin((i / steps) * Math.PI * frequency * 1.5 + seededRandom(seed + 1) * Math.PI) * (amplitude * 0.5);
+        const y = baseY + wave1 + wave2;
+        points.push({ x, y });
+    }
+
+    let path = `M 0 ${height}`;
+    path += ` L ${points[0].x} ${points[0].y}`;
+
+    for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i];
+        const p1 = points[i + 1];
+        const cpx = (p0.x + p1.x) / 2;
+        path += ` Q ${p0.x + (p1.x - p0.x) * 0.5} ${p0.y}, ${p1.x} ${p1.y}`;
+    }
+
+    path += ` L ${width} ${height} Z`;
+    return path;
+}
+
+// Generate SVG art for a syrup card - Paper cutout style with high variety
+function generateSyrupArt(color, syrupId) {
+    const palette = generatePalette(color);
+    const seed = hashString(syrupId);
+    const width = 200;
+    const height = 120;
+
+    // Use seed to determine layout style and number of shapes
+    const layoutStyle = Math.floor(seededRandom(seed) * 5); // 0-4 different layouts
+    const numShapes = 4 + Math.floor(seededRandom(seed + 1) * 4); // 4-7 shapes
+    const layers = [];
+
+    // Helper to get random position within bounds
+    const randX = (s) => width * (0.1 + seededRandom(s) * 0.8);
+    const randY = (s) => height * (0.1 + seededRandom(s) * 0.8);
+    const randSize = (s, min, max) => min + seededRandom(s) * (max - min);
+    const randPoints = (s) => 4 + Math.floor(seededRandom(s) * 4); // 4-7 points
+    const randVariation = (s) => 0.25 + seededRandom(s) * 0.35; // 0.25-0.6
+
+    // Shuffle color indices based on seed for variety
+    const colorIndices = [0, 1, 2, 3, 4, 5];
+    for (let i = colorIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(seededRandom(seed + i * 7) * (i + 1));
+        [colorIndices[i], colorIndices[j]] = [colorIndices[j], colorIndices[i]];
+    }
+
+    // Background shape (always present, but position varies)
+    const bgX = width * (0.3 + seededRandom(seed + 10) * 0.4);
+    const bgY = height * (0.3 + seededRandom(seed + 11) * 0.4);
+    layers.push({
+        path: generateBlobPath(bgX, bgY, randSize(seed + 12, 70, 100), randPoints(seed + 13), seed + 14, randVariation(seed + 15)),
+        color: palette.colors[6] // warm neutral background
+    });
+
+    // Generate varied shapes based on layout style
+    for (let i = 0; i < numShapes; i++) {
+        const shapeSeed = seed + (i + 1) * 100;
+        let cx, cy, radius;
+
+        // Different positioning strategies based on layout
+        switch (layoutStyle) {
+            case 0: // Scattered
+                cx = randX(shapeSeed);
+                cy = randY(shapeSeed + 1);
+                break;
+            case 1: // Left-heavy
+                cx = width * (0.1 + seededRandom(shapeSeed) * 0.5);
+                cy = randY(shapeSeed + 1);
+                break;
+            case 2: // Right-heavy
+                cx = width * (0.4 + seededRandom(shapeSeed) * 0.5);
+                cy = randY(shapeSeed + 1);
+                break;
+            case 3: // Diagonal
+                const t = seededRandom(shapeSeed);
+                cx = width * (0.1 + t * 0.8);
+                cy = height * (0.1 + t * 0.8 + (seededRandom(shapeSeed + 1) - 0.5) * 0.3);
+                break;
+            case 4: // Clustered center
+                cx = width * (0.3 + seededRandom(shapeSeed) * 0.4);
+                cy = height * (0.25 + seededRandom(shapeSeed + 1) * 0.5);
+                break;
+            default:
+                cx = randX(shapeSeed);
+                cy = randY(shapeSeed + 1);
+        }
+
+        // Vary size based on layer (earlier = larger, but with randomness)
+        const baseSize = 60 - (i * 8);
+        radius = randSize(shapeSeed + 2, Math.max(baseSize - 15, 20), baseSize + 20);
+
+        // Pick color from shuffled palette
+        const colorIdx = colorIndices[i % colorIndices.length];
+
+        layers.push({
+            path: generateBlobPath(cx, cy, radius, randPoints(shapeSeed + 3), shapeSeed + 4, randVariation(shapeSeed + 5)),
+            color: palette.colors[colorIdx],
+            shadow: true
+        });
+    }
+
+    // Optionally add 1-2 small accent shapes
+    const numAccents = Math.floor(seededRandom(seed + 900) * 3); // 0-2 accents
+    for (let i = 0; i < numAccents; i++) {
+        const accentSeed = seed + 1000 + i * 50;
+        layers.push({
+            path: generateBlobPath(
+                randX(accentSeed),
+                randY(accentSeed + 1),
+                randSize(accentSeed + 2, 15, 30),
+                randPoints(accentSeed + 3),
+                accentSeed + 4,
+                randVariation(accentSeed + 5)
+            ),
+            color: palette.colors[colorIndices[(numShapes + i) % colorIndices.length]],
+            shadow: true
+        });
+    }
+
+    // Create SVG with paper cutout effect
+    const svg = `
+        <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="shadow-${syrupId}" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="1" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.12"/>
+                </filter>
+            </defs>
+            <rect width="${width}" height="${height}" fill="${palette.colors[6]}"/>
+            ${layers.map((layer) => `
+                <path d="${layer.path}" fill="${layer.color}" ${layer.shadow ? `filter="url(#shadow-${syrupId})"` : ''}/>
+            `).join('')}
+        </svg>
+    `;
+
+    return svg;
+}
+
+// Convert SVG to data URL for use as background
+function svgToDataUrl(svg) {
+    const encoded = encodeURIComponent(svg)
+        .replace(/'/g, '%27')
+        .replace(/"/g, '%22');
+    return `data:image/svg+xml,${encoded}`;
+}
+
+// Generate background style for a syrup
+function generateSyrupBackground(color, syrupId) {
+    const svg = generateSyrupArt(color, syrupId);
+    return svgToDataUrl(svg);
 }
 
 // =============================================
@@ -555,9 +972,10 @@ function openDetail(id) {
 
     currentSyrupId = id;
     const ingredients = syrup.ingredients || [];
+    const artBackground = generateSyrupBackground(syrup.color, syrup.id);
 
     elements.detailContent.innerHTML = `
-        <div class="detail-color-header" style="background: ${syrup.color}">
+        <div class="detail-color-header detail-art-bg" style="background-image: url('${artBackground}')">
             <h2 class="detail-name">${escapeHtml(syrup.name)}</h2>
         </div>
         <div class="detail-rating">
