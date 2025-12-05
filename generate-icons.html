@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Syrup Safari Icon Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5ebe0;
+        }
+        h1 { color: #5c4d3d; }
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .icon-item {
+            text-align: center;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .icon-item canvas {
+            border-radius: 20%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .icon-item p { margin: 10px 0 0; color: #8b7355; font-size: 14px; }
+        .icon-item a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #a3b18a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        .icon-item a:hover { background: #8fa374; }
+    </style>
+</head>
+<body>
+    <h1>Syrup Safari Icon Generator</h1>
+
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Right-click on each icon below and select "Save image as..."</li>
+            <li>Save each icon with the filename shown (e.g., icon-192.png)</li>
+            <li>Place all icons in the <code>icons/</code> folder</li>
+        </ol>
+        <p>Or click the "Download" links below each icon.</p>
+    </div>
+
+    <div class="icons-grid" id="iconsGrid"></div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+
+            // Background gradient
+            const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+            bgGrad.addColorStop(0, '#f5ebe0');
+            bgGrad.addColorStop(1, '#e8ddd4');
+
+            // Rounded rectangle background
+            const radius = size * 0.2;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, radius);
+            ctx.fillStyle = bgGrad;
+            ctx.fill();
+
+            // Scale factor
+            const s = size / 512;
+
+            // Syrup drop gradient
+            const dropGrad = ctx.createLinearGradient(256 * s, 80 * s, 256 * s, 460 * s);
+            dropGrad.addColorStop(0, '#dda15e');
+            dropGrad.addColorStop(1, '#bc6c25');
+
+            // Draw syrup drop
+            ctx.beginPath();
+            ctx.moveTo(256 * s, 100 * s);
+            ctx.bezierCurveTo(220 * s, 100 * s, 200 * s, 150 * s, 200 * s, 180 * s);
+            ctx.lineTo(200 * s, 240 * s);
+            ctx.bezierCurveTo(160 * s, 280 * s, 140 * s, 340 * s, 140 * s, 380 * s);
+            ctx.bezierCurveTo(140 * s, 440 * s, 190 * s, 460 * s, 256 * s, 460 * s);
+            ctx.bezierCurveTo(322 * s, 460 * s, 372 * s, 440 * s, 372 * s, 380 * s);
+            ctx.bezierCurveTo(372 * s, 340 * s, 352 * s, 280 * s, 312 * s, 240 * s);
+            ctx.lineTo(312 * s, 180 * s);
+            ctx.bezierCurveTo(312 * s, 150 * s, 292 * s, 100 * s, 256 * s, 100 * s);
+            ctx.fillStyle = dropGrad;
+            ctx.fill();
+
+            // Leaf gradient
+            const leafGrad = ctx.createLinearGradient(320 * s, 100 * s, 420 * s, 250 * s);
+            leafGrad.addColorStop(0, '#a3b18a');
+            leafGrad.addColorStop(1, '#8fa374');
+
+            // Draw leaf
+            ctx.beginPath();
+            ctx.moveTo(330 * s, 130 * s);
+            ctx.bezierCurveTo(370 * s, 140 * s, 400 * s, 180 * s, 400 * s, 220 * s);
+            ctx.bezierCurveTo(400 * s, 260 * s, 370 * s, 280 * s, 340 * s, 280 * s);
+            ctx.bezierCurveTo(320 * s, 280 * s, 310 * s, 260 * s, 310 * s, 240 * s);
+            ctx.bezierCurveTo(310 * s, 200 * s, 340 * s, 170 * s, 360 * s, 150 * s);
+            ctx.bezierCurveTo(340 * s, 170 * s, 300 * s, 200 * s, 300 * s, 250 * s);
+            ctx.bezierCurveTo(300 * s, 290 * s, 320 * s, 300 * s, 350 * s, 300 * s);
+            ctx.bezierCurveTo(400 * s, 300 * s, 420 * s, 260 * s, 420 * s, 210 * s);
+            ctx.bezierCurveTo(420 * s, 150 * s, 370 * s, 120 * s, 330 * s, 130 * s);
+            ctx.fillStyle = leafGrad;
+            ctx.fill();
+
+            // Highlight on drop
+            ctx.beginPath();
+            ctx.ellipse(230 * s, 220 * s, 15 * s, 35 * s, -0.2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fill();
+
+            // Small decorative circles
+            ctx.beginPath();
+            ctx.arc(185 * s, 160 * s, 12 * s, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(163, 177, 138, 0.5)';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(165 * s, 190 * s, 8 * s, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(163, 177, 138, 0.3)';
+            ctx.fill();
+        }
+
+        // Generate all icons
+        const grid = document.getElementById('iconsGrid');
+
+        sizes.forEach(size => {
+            const item = document.createElement('div');
+            item.className = 'icon-item';
+
+            const canvas = document.createElement('canvas');
+            drawIcon(canvas, size);
+
+            const filename = `icon-${size}.png`;
+
+            const p = document.createElement('p');
+            p.textContent = filename;
+
+            const link = document.createElement('a');
+            link.textContent = 'Download';
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+
+            item.appendChild(canvas);
+            item.appendChild(p);
+            item.appendChild(link);
+            grid.appendChild(item);
+        });
+    </script>
+</body>
+</html>

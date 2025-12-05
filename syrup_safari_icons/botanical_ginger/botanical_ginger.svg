@@ -1,0 +1,112 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    
+    <defs>
+        <!-- Watercolor texture filter -->
+        <filter id="watercolor" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="0.5"/>
+        </filter>
+        
+        <!-- Soft edge filter -->
+        <filter id="softEdge" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0.8"/>
+        </filter>
+        
+        <!-- Paper texture -->
+        <filter id="paper" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+            <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="1" result="light">
+                <feDistantLight azimuth="45" elevation="60"/>
+            </feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="light" mode="multiply"/>
+        </filter>
+        
+        <!-- Engraving line texture -->
+        <pattern id="engraving" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="4" y2="4" stroke="#3D3D3D" stroke-width="0.3" opacity="0.15"/>
+        </pattern>
+        
+        <!-- Sage gradient -->
+        <linearGradient id="sageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#B8C9A8;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#9CAF88;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Eucalyptus gradient -->
+        <linearGradient id="eucalyptusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#A8C5B0;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#84A98C;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Peach gradient -->
+        <linearGradient id="peachGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FDDCC8;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#F5C4A1;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Lavender gradient -->
+        <linearGradient id="lavenderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#DED3EB;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#C5B4D6;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Citrus gradient -->
+        <linearGradient id="citrusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#F5D88A;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#E8B75A;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Amber/syrup gradient -->
+        <linearGradient id="syrupGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#F5D88A;stop-opacity:1"/>
+            <stop offset="50%" style="stop-color:#D4915A;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#A67C3D;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Glass gradient -->
+        <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:white;stop-opacity:0.4"/>
+            <stop offset="50%" style="stop-color:white;stop-opacity:0.1"/>
+            <stop offset="100%" style="stop-color:white;stop-opacity:0.3"/>
+        </linearGradient>
+        
+        <!-- Kraft paper gradient -->
+        <linearGradient id="kraftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#C9A66B;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#A67C3D;stop-opacity:1"/>
+        </linearGradient>
+        
+        <!-- Moss gradient -->
+        <linearGradient id="mossGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#5E7F5E;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#3D5A3D;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+    
+    <linearGradient id="gingerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#D4A65A;stop-opacity:1"/>
+        <stop offset="100%" style="stop-color:#B8864A;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Main root body -->
+    <path d="M20 32 Q14 28 12 20 Q14 14 20 16 Q24 12 28 16 Q30 18 32 24 Q36 18 40 16 Q48 14 52 22 Q54 30 48 34 Q44 38 42 44 Q38 52 32 54 Q24 52 22 44 Q18 38 20 32" 
+          fill="url(#gingerGrad)" filter="url(#watercolor)" opacity="0.85"/>
+    <!-- Root knobs -->
+    <ellipse cx="16" cy="18" rx="6" ry="5" fill="url(#gingerGrad)" filter="url(#watercolor)" opacity="0.8"/>
+    <ellipse cx="50" cy="26" rx="5" ry="6" fill="url(#gingerGrad)" filter="url(#watercolor)" opacity="0.8"/>
+    <ellipse cx="36" cy="50" rx="5" ry="6" fill="url(#gingerGrad)" filter="url(#watercolor)" opacity="0.75"/>
+    <!-- Texture lines (engraving) -->
+    <path d="M22 20 Q28 22 32 28" stroke="#8B6B3A" stroke-width="0.7" fill="none" opacity="0.5"/>
+    <path d="M24 28 Q30 30 36 34" stroke="#8B6B3A" stroke-width="0.7" fill="none" opacity="0.5"/>
+    <path d="M26 38 Q32 40 38 42" stroke="#8B6B3A" stroke-width="0.7" fill="none" opacity="0.5"/>
+    <path d="M40 22 Q44 26 46 32" stroke="#8B6B3A" stroke-width="0.7" fill="none" opacity="0.5"/>
+    <!-- Skin texture dots -->
+    <circle cx="18" cy="24" r="0.8" fill="#8B6B3A" opacity="0.4"/>
+    <circle cx="28" cy="32" r="0.8" fill="#8B6B3A" opacity="0.4"/>
+    <circle cx="38" cy="28" r="0.8" fill="#8B6B3A" opacity="0.4"/>
+    <circle cx="32" cy="42" r="0.8" fill="#8B6B3A" opacity="0.4"/>
+    <circle cx="44" cy="36" r="0.8" fill="#8B6B3A" opacity="0.4"/>
+    <!-- Linework -->
+    <path d="M20 32 Q14 28 12 20 Q14 14 20 16 Q24 12 28 16 Q30 18 32 24 Q36 18 40 16 Q48 14 52 22 Q54 30 48 34 Q44 38 42 44 Q38 52 32 54 Q24 52 22 44 Q18 38 20 32" 
+          fill="none" stroke="#3D3D3D" stroke-width="1.5"/>
+    </svg>

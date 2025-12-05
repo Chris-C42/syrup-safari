@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syrup Safari Icon Set Preview</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:wght@300;400;500&display=swap');
+        
+        :root {
+            --sage: #9CAF88;
+            --sage-light: #B8C9A8;
+            --eucalyptus: #84A98C;
+            --moss: #5E7F5E;
+            --peach: #F5C4A1;
+            --peach-light: #FDDCC8;
+            --lavender: #C5B4D6;
+            --citrus: #E8B75A;
+            --amber: #D4915A;
+            --cream: #FDF8F0;
+            --kraft: #C9A66B;
+            --ink: #3D3D3D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #F5EDE4 100%);
+            min-height: 100vh;
+            padding: 40px;
+            color: var(--ink);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--moss);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--ink);
+            opacity: 0.7;
+            font-weight: 300;
+        }
+        
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .color-swatch::after {
+            content: attr(data-name);
+            position: absolute;
+            top: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            white-space: nowrap;
+            opacity: 0.6;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(158, 175, 136, 0.3);
+        }
+        
+        .section-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--sage);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--moss);
+        }
+        
+        .section-description {
+            font-size: 0.95rem;
+            color: var(--ink);
+            opacity: 0.6;
+            margin-left: auto;
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+        }
+        
+        .icon-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(158, 175, 136, 0.15);
+        }
+        
+        .icon-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            border-color: var(--sage);
+        }
+        
+        .icon-preview {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .icon-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        
+        .icon-sizes {
+            font-size: 0.65rem;
+            color: var(--ink);
+            opacity: 0.5;
+        }
+        
+        .sizes-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .sizes-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--moss);
+            margin-bottom: 24px;
+        }
+        
+        .size-demo {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 30px;
+            background: var(--cream);
+            border-radius: 12px;
+        }
+        
+        .size-item {
+            text-align: center;
+        }
+        
+        .size-item img {
+            display: block;
+            margin: 0 auto 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .size-item span {
+            font-size: 0.7rem;
+            color: var(--ink);
+            opacity: 0.6;
+        }
+        
+        .specs {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        
+        .spec-card {
+            padding: 20px;
+            background: var(--cream);
+            border-radius: 12px;
+        }
+        
+        .spec-card h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sage);
+            margin-bottom: 8px;
+        }
+        
+        .spec-card p {
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(158, 175, 136, 0.2);
+        }
+        
+        footer p {
+            font-size: 0.85rem;
+            color: var(--ink);
+            opacity: 0.5;
+        }
+        
+        .honey-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🍯 Syrup Safari</h1>
+        <p class="subtitle">Artisanal Icon Set • 22 Icons • iOS Ready</p>
+        
+        <div class="color-palette">
+            <div class="color-swatch" style="background: var(--sage)" data-name="Sage"></div>
+            <div class="color-swatch" style="background: var(--eucalyptus)" data-name="Eucalyptus"></div>
+            <div class="color-swatch" style="background: var(--moss)" data-name="Moss"></div>
+            <div class="color-swatch" style="background: var(--peach)" data-name="Peach"></div>
+            <div class="color-swatch" style="background: var(--lavender)" data-name="Lavender"></div>
+            <div class="color-swatch" style="background: var(--citrus)" data-name="Citrus"></div>
+            <div class="color-swatch" style="background: var(--amber)" data-name="Amber"></div>
+            <div class="color-swatch" style="background: var(--kraft)" data-name="Kraft"></div>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Navigation Icons -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2>Navigation Icons</h2>
+                <span class="section-description">Hybrid linework + watercolor • 8 icons</span>
+            </div>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_home/nav_home_120x120.png" alt="Home">
+                    </div>
+                    <div class="icon-name">Home</div>
+                    <div class="icon-sizes">nav_home</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_explore/nav_explore_120x120.png" alt="Explore">
+                    </div>
+                    <div class="icon-name">Explore</div>
+                    <div class="icon-sizes">nav_explore</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_search/nav_search_120x120.png" alt="Search">
+                    </div>
+                    <div class="icon-name">Search</div>
+                    <div class="icon-sizes">nav_search</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_camera/nav_camera_120x120.png" alt="Camera">
+                    </div>
+                    <div class="icon-name">Camera</div>
+                    <div class="icon-sizes">nav_camera</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_favorites/nav_favorites_120x120.png" alt="Favorites">
+                    </div>
+                    <div class="icon-name">Favorites</div>
+                    <div class="icon-sizes">nav_favorites</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_profile/nav_profile_120x120.png" alt="Profile">
+                    </div>
+                    <div class="icon-name">Profile</div>
+                    <div class="icon-sizes">nav_profile</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_settings/nav_settings_120x120.png" alt="Settings">
+                    </div>
+                    <div class="icon-name">Settings</div>
+                    <div class="icon-sizes">nav_settings</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="nav_add_syrup/nav_add_syrup_120x120.png" alt="Add Syrup">
+                    </div>
+                    <div class="icon-name">Add Syrup</div>
+                    <div class="icon-sizes">nav_add_syrup</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Syrup System Icons -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2>Syrup System Icons</h2>
+                <span class="section-description">Semi-realistic, handcrafted • 8 icons</span>
+            </div>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_bottle/syrup_bottle_120x120.png" alt="Syrup Bottle">
+                    </div>
+                    <div class="icon-name">Syrup Bottle</div>
+                    <div class="icon-sizes">syrup_bottle</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_dropper/syrup_dropper_120x120.png" alt="Dropper">
+                    </div>
+                    <div class="icon-name">Dropper Bottle</div>
+                    <div class="icon-sizes">syrup_dropper</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_mason_jar/syrup_mason_jar_120x120.png" alt="Mason Jar">
+                    </div>
+                    <div class="icon-name">Mason Jar</div>
+                    <div class="icon-sizes">syrup_mason_jar</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_rating_star/syrup_rating_star_120x120.png" alt="Rating Star">
+                    </div>
+                    <div class="icon-name">Rating Star</div>
+                    <div class="icon-sizes">syrup_rating_star</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_flavor_notes/syrup_flavor_notes_120x120.png" alt="Flavor Notes">
+                    </div>
+                    <div class="icon-name">Flavor Notes</div>
+                    <div class="icon-sizes">syrup_flavor_notes</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_batch_tag/syrup_batch_tag_120x120.png" alt="Batch Tag">
+                    </div>
+                    <div class="icon-name">Batch Tag</div>
+                    <div class="icon-sizes">syrup_batch_tag</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_spoon/syrup_spoon_120x120.png" alt="Spoon">
+                    </div>
+                    <div class="icon-name">Spoon/Stir</div>
+                    <div class="icon-sizes">syrup_spoon</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="syrup_liquid_drop/syrup_liquid_drop_120x120.png" alt="Liquid Drop">
+                    </div>
+                    <div class="icon-name">Liquid Drop</div>
+                    <div class="icon-sizes">syrup_liquid_drop</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Botanical Ingredients -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2>Botanical Ingredients</h2>
+                <span class="section-description">Watercolor + engraving hybrid • 6 icons</span>
+            </div>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_vanilla/botanical_vanilla_120x120.png" alt="Vanilla">
+                    </div>
+                    <div class="icon-name">Vanilla Bean</div>
+                    <div class="icon-sizes">botanical_vanilla</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_hibiscus/botanical_hibiscus_120x120.png" alt="Hibiscus">
+                    </div>
+                    <div class="icon-name">Hibiscus</div>
+                    <div class="icon-sizes">botanical_hibiscus</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_ginger/botanical_ginger_120x120.png" alt="Ginger">
+                    </div>
+                    <div class="icon-name">Ginger Root</div>
+                    <div class="icon-sizes">botanical_ginger</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_lavender/botanical_lavender_120x120.png" alt="Lavender">
+                    </div>
+                    <div class="icon-name">Lavender</div>
+                    <div class="icon-sizes">botanical_lavender</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_mint/botanical_mint_120x120.png" alt="Mint">
+                    </div>
+                    <div class="icon-name">Mint Leaf</div>
+                    <div class="icon-sizes">botanical_mint</div>
+                </div>
+                <div class="icon-card">
+                    <div class="icon-preview">
+                        <img src="botanical_citrus/botanical_citrus_120x120.png" alt="Citrus">
+                    </div>
+                    <div class="icon-name">Citrus Peel</div>
+                    <div class="icon-sizes">botanical_citrus</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Size Demonstration -->
+        <div class="sizes-section">
+            <h3>iOS Export Sizes</h3>
+            <div class="size-demo">
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_29x29.png" alt="29px" width="29" height="29">
+                    <span>29px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_40x40.png" alt="40px" width="40" height="40">
+                    <span>40px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_58x58.png" alt="58px" width="58" height="58">
+                    <span>58px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_60x60.png" alt="60px" width="60" height="60">
+                    <span>60px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_80x80.png" alt="80px" width="80" height="80">
+                    <span>80px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_87x87.png" alt="87px" width="87" height="87">
+                    <span>87px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_120x120.png" alt="120px" width="120" height="120">
+                    <span>120px</span>
+                </div>
+                <div class="size-item">
+                    <img src="syrup_bottle/syrup_bottle_180x180.png" alt="180px" width="180" height="180">
+                    <span>180px</span>
+                </div>
+            </div>
+            
+            <div class="specs">
+                <div class="spec-card">
+                    <h4>Total Icons</h4>
+                    <p>22 unique icons</p>
+                </div>
+                <div class="spec-card">
+                    <h4>Export Sizes</h4>
+                    <p>29, 40, 58, 60, 80, 87, 120, 180, 1024px</p>
+                </div>
+                <div class="spec-card">
+                    <h4>Format</h4>
+                    <p>PNG (+ SVG source)</p>
+                </div>
+                <div class="spec-card">
+                    <h4>Total Files</h4>
+                    <p>220 PNG + 22 SVG files</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="honey-icon">🍯</div>
+        <p>Syrup Safari Icon Set • Artisanal • Botanical • Handcrafted</p>
+    </footer>
+</body>
+</html>

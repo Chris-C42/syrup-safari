@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#f5ebe0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Syrup Safari">
+    <meta name="description" content="A beautiful app to log and rate your simple syrup creations">
+
+    <title>Syrup Safari</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-128.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192.png">
+
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Nunito:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="leaf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path
+                            d="M12 2C6.5 2 2 6.5 2 12c0 2.5 1 4.8 2.5 6.5C6 20 8.5 21 12 21c5.5 0 10-4.5 10-10 0-1.5-.5-3-1-4-2 3-5 5-9 5-2 0-4-1-5-2 1-4 4-7 8-8h-3z" />
+                    </svg>
+                    <h1>Syrup Safari</h1>
+                </div>
+                <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home View - Syrup List -->
+            <section id="homeView" class="view active">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search syrups..." class="search-input">
+                    </div>
+                    <button class="filter-btn" id="filterBtn" aria-label="Filter">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 6h16M6 12h12M8 18h8" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Filter Panel (hidden by default) -->
+                <div id="filterPanel" class="filter-panel hidden">
+                    <div class="filter-section">
+                        <h3>Sort By</h3>
+                        <div class="filter-options">
+                            <button class="filter-option active" data-sort="date-desc">Newest</button>
+                            <button class="filter-option" data-sort="date-asc">Oldest</button>
+                            <button class="filter-option" data-sort="rating-desc">Highest Rated</button>
+                            <button class="filter-option" data-sort="rating-asc">Lowest Rated</button>
+                            <button class="filter-option" data-sort="name-asc">A-Z</button>
+                            <button class="filter-option" data-sort="name-desc">Z-A</button>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <h3>Filter by Rating</h3>
+                        <div class="filter-options">
+                            <button class="filter-option" data-rating="all">All</button>
+                            <button class="filter-option" data-rating="5">5 Hearts</button>
+                            <button class="filter-option" data-rating="4">4+ Hearts</button>
+                            <button class="filter-option" data-rating="3">3+ Hearts</button>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <h3>Filter by Tag</h3>
+                        <div class="filter-options tags-filter" id="tagsFilter">
+                            <!-- Tags will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Syrup Grid -->
+                <div id="syrupGrid" class="syrup-grid">
+                    <!-- Syrup cards will be populated here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state hidden">
+                    <div class="empty-illustration">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="emptyWatercolor" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+                                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+                                    <feGaussianBlur stdDeviation="0.5"/>
+                                </filter>
+                                <linearGradient id="emptySyrupGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#F5D88A;stop-opacity:1"/>
+                                    <stop offset="50%" style="stop-color:#D4915A;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#A67C3D;stop-opacity:1"/>
+                                </linearGradient>
+                                <linearGradient id="emptyGlassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:white;stop-opacity:0.4"/>
+                                    <stop offset="50%" style="stop-color:white;stop-opacity:0.1"/>
+                                    <stop offset="100%" style="stop-color:white;stop-opacity:0.3"/>
+                                </linearGradient>
+                                <linearGradient id="emptyKraftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#C9A66B;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#A67C3D;stop-opacity:1"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Bottle shadow -->
+                            <path d="M24 16 L24 10 L27 6 L37 6 L40 10 L40 16 L44 20 L44 56 Q44 58 42 58 L22 58 Q20 58 20 56 L20 20 Z"
+                                  fill="#3D5A3D" opacity="0.15" transform="translate(2, 2)"/>
+                            <!-- Bottle body -->
+                            <path d="M24 16 L24 10 L27 6 L37 6 L40 10 L40 16 L44 20 L44 56 Q44 58 42 58 L22 58 Q20 58 20 56 L20 20 Z"
+                                  fill="url(#emptySyrupGrad)" filter="url(#emptyWatercolor)" opacity="0.9"/>
+                            <!-- Glass effect -->
+                            <rect x="22" y="22" width="20" height="32" rx="1" fill="url(#emptyGlassGrad)" opacity="0.4"/>
+                            <!-- Syrup inside -->
+                            <path d="M22 30 L42 30 L42 54 Q42 56 40 56 L24 56 Q22 56 22 54 Z"
+                                  fill="url(#emptySyrupGrad)" opacity="0.7"/>
+                            <!-- Label -->
+                            <rect x="24" y="36" width="16" height="12" rx="1" fill="#FDF8F0" opacity="0.9"/>
+                            <rect x="26" y="38" width="12" height="2" rx="0.5" fill="#9CAF88" opacity="0.6"/>
+                            <rect x="26" y="42" width="8" height="1.5" rx="0.5" fill="#6B6B6B" opacity="0.4"/>
+                            <rect x="26" y="45" width="10" height="1.5" rx="0.5" fill="#6B6B6B" opacity="0.4"/>
+                            <!-- Glass highlights -->
+                            <line x1="23" y1="24" x2="23" y2="52" stroke="white" stroke-width="1.5" opacity="0.5"/>
+                            <line x1="41" y1="24" x2="41" y2="52" stroke="white" stroke-width="0.8" opacity="0.3"/>
+                            <!-- Cork -->
+                            <path d="M27 6 L37 6 L37 4 Q37 2 32 2 Q27 2 27 4 Z" fill="url(#emptyKraftGrad)"/>
+                            <!-- Linework -->
+                            <path d="M24 16 L24 10 L27 6 L37 6 L40 10 L40 16 L44 20 L44 56 Q44 58 42 58 L22 58 Q20 58 20 56 L20 20 Z"
+                                  fill="none" stroke="#3D3D3D" stroke-width="1.5"/>
+                            <path d="M27 6 L37 6 L37 4 Q37 2 32 2 Q27 2 27 4 Z" fill="none" stroke="#3D3D3D" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <h2>No syrups yet</h2>
+                    <p>Start your syrup safari by adding your first creation!</p>
+                </div>
+
+                <!-- Add Button -->
+                <button class="fab" id="addBtn" aria-label="Add new syrup">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                </button>
+            </section>
+
+            <!-- Add/Edit View -->
+            <section id="editView" class="view">
+                <div class="edit-header">
+                    <button class="back-btn" id="backBtn" aria-label="Go back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h2 id="editTitle">New Syrup</h2>
+                    <button class="save-btn" id="saveBtn">Save</button>
+                </div>
+
+                <form id="syrupForm" class="syrup-form">
+                    <div class="form-group">
+                        <label for="syrupName">Name</label>
+                        <input type="text" id="syrupName" placeholder="e.g., Lavender Honey" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="syrupDescription">Description</label>
+                        <textarea id="syrupDescription" placeholder="What makes this syrup special?"
+                            rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ingredients</label>
+                        <div class="ingredients-list" id="ingredientsList">
+                            <!-- Ingredient rows will be added here -->
+                        </div>
+                        <button type="button" class="add-ingredient-btn" id="addIngredientBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                            Add Ingredient
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="rating-input" id="ratingInput">
+                            <button type="button" class="heart-btn" data-rating="1" aria-label="1 heart">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                            <button type="button" class="heart-btn" data-rating="2" aria-label="2 hearts">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                            <button type="button" class="heart-btn" data-rating="3" aria-label="3 hearts">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                            <button type="button" class="heart-btn" data-rating="4" aria-label="4 hearts">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                            <button type="button" class="heart-btn" data-rating="5" aria-label="5 hearts">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="syrupTags">Tags</label>
+                        <div class="tags-input-wrapper">
+                            <div id="tagsList" class="tags-list"></div>
+                            <input type="text" id="syrupTags" placeholder="Add tag and press Enter">
+                        </div>
+                        <div class="suggested-tags" id="suggestedTags">
+                            <span class="suggested-tag" data-tag="Floral">Floral</span>
+                            <span class="suggested-tag" data-tag="Fruity">Fruity</span>
+                            <span class="suggested-tag" data-tag="Spicy">Spicy</span>
+                            <span class="suggested-tag" data-tag="Herbal">Herbal</span>
+                            <span class="suggested-tag" data-tag="Citrus">Citrus</span>
+                            <span class="suggested-tag" data-tag="Sweet">Sweet</span>
+                            <span class="suggested-tag" data-tag="Earthy">Earthy</span>
+                            <span class="suggested-tag" data-tag="Seasonal">Seasonal</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Color</label>
+                        <div class="color-picker-wrapper">
+                            <div class="color-preview" id="colorPreview"></div>
+                            <input type="color" id="colorPicker" class="color-picker">
+                            <span class="color-hint">Auto-suggested based on name</span>
+                        </div>
+                        <div class="preset-colors" id="presetColors">
+                            <button type="button" class="preset-color" data-color="#e8d4d4" style="background:#e8d4d4"
+                                aria-label="Blush pink"></button>
+                            <button type="button" class="preset-color" data-color="#d4e8d4" style="background:#d4e8d4"
+                                aria-label="Sage green"></button>
+                            <button type="button" class="preset-color" data-color="#d4d4e8" style="background:#d4d4e8"
+                                aria-label="Lavender"></button>
+                            <button type="button" class="preset-color" data-color="#e8e4d4" style="background:#e8e4d4"
+                                aria-label="Cream"></button>
+                            <button type="button" class="preset-color" data-color="#e8d8c8" style="background:#e8d8c8"
+                                aria-label="Peach"></button>
+                            <button type="button" class="preset-color" data-color="#d4e0e8" style="background:#d4e0e8"
+                                aria-label="Sky blue"></button>
+                            <button type="button" class="preset-color" data-color="#e0d4c8" style="background:#e0d4c8"
+                                aria-label="Warm brown"></button>
+                            <button type="button" class="preset-color" data-color="#dce8d4" style="background:#dce8d4"
+                                aria-label="Mint"></button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="syrupId">
+                </form>
+            </section>
+
+            <!-- Detail View -->
+            <section id="detailView" class="view">
+                <div class="detail-header" id="detailHeader">
+                    <button class="back-btn" id="detailBackBtn" aria-label="Go back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <div class="detail-actions">
+                        <button class="action-btn" id="editSyrupBtn" aria-label="Edit">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                        </button>
+                        <button class="action-btn danger" id="deleteSyrupBtn" aria-label="Delete">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="detail-content" id="detailContent">
+                    <!-- Detail content populated dynamically -->
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settingsView" class="view">
+                <div class="edit-header">
+                    <button class="back-btn" id="settingsBackBtn" aria-label="Go back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h2>Settings</h2>
+                    <div style="width: 60px"></div>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section">
+                        <h3>Data Management</h3>
+                        <button class="settings-option" id="exportBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                            </svg>
+                            <span>Export Collection</span>
+                        </button>
+                        <button class="settings-option" id="importBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                            </svg>
+                            <span>Import Collection</span>
+                        </button>
+                        <input type="file" id="importFile" accept=".json" style="display: none">
+                    </div>
+                    <div class="settings-section">
+                        <h3>About</h3>
+                        <div class="about-info">
+                            <p><strong>Syrup Safari</strong></p>
+                            <p class="version">Version 1.0</p>
+                            <p class="made-with">Made with love by Chris for crafting the perfect simple syrup</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <h3>Delete Syrup?</h3>
+                <p>Are you sure you want to delete this syrup? This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="modal-btn cancel" id="cancelDeleteBtn">Cancel</button>
+                    <button class="modal-btn danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast hidden">
+            <span id="toastMessage"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
