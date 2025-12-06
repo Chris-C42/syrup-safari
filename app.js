@@ -614,10 +614,10 @@ function hexToHsl(hex) {
 // Soften a color to pastel while preserving hue identity
 function softenToPastel(hex) {
     const hsl = hexToHsl(hex);
-    // Keep good saturation for color distinction
-    const softS = Math.min(hsl.s * 0.7, 60); // More vibrant pastels
-    const softL = 78 + (hsl.l / 100) * 10; // Lightness between 78-88%
-    return hslToHex(hsl.h, softS, Math.min(softL, 88));
+    // Keep strong saturation for vivid color distinction
+    const softS = Math.min(hsl.s * 0.85, 75); // More saturated pastels
+    const softL = 72 + (hsl.l / 100) * 10; // Lightness between 72-82%
+    return hslToHex(hsl.h, softS, Math.min(softL, 82));
 }
 
 // Generate a harmonious palette from a base color
@@ -629,19 +629,19 @@ function generatePalette(baseHex) {
         colors: []
     };
 
-    // Generate variations with more color distinction
+    // Generate variations with vivid color distinction
     // Main pastel (strongest color presence)
-    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.75, 65), 78);
+    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.8, 70), 75);
 
     // Lighter version of base - still recognizable
-    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 45), 83);
+    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.6, 55), 80);
 
     // Analogous colors (nearby on color wheel) - good saturation
-    const analogous1 = hslToHex((hsl.h + 25) % 360, Math.min(hsl.s * 0.65, 55), 80);
-    const analogous2 = hslToHex((hsl.h - 25 + 360) % 360, Math.min(hsl.s * 0.56, 55), 83);
+    const analogous1 = hslToHex((hsl.h + 25) % 360, Math.min(hsl.s * 0.7, 60), 77);
+    const analogous2 = hslToHex((hsl.h - 25 + 360) % 360, Math.min(hsl.s * 0.65, 60), 79);
 
     // Soft complementary accent - subtle but visible
-    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.45, 35), 85);
+    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.5, 40), 82);
 
     // Warm neutral from theme
     const warmNeutral = '#f5ebe0';
