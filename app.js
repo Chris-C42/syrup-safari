@@ -614,10 +614,10 @@ function hexToHsl(hex) {
 // Soften a color to pastel while preserving hue identity
 function softenToPastel(hex) {
     const hsl = hexToHsl(hex);
-    // Keep more saturation to preserve color identity, just lighten
-    const softS = Math.min(hsl.s * 0.55, 45); // Keep more saturation (was 0.4, 35)
-    const softL = 82 + (hsl.l / 100) * 10; // Lightness between 82-92%
-    return hslToHex(hsl.h, softS, Math.min(softL, 92));
+    // Keep good saturation for color distinction
+    const softS = Math.min(hsl.s * 0.7, 60); // More vibrant pastels
+    const softL = 78 + (hsl.l / 100) * 10; // Lightness between 78-88%
+    return hslToHex(hsl.h, softS, Math.min(softL, 88));
 }
 
 // Generate a harmonious palette from a base color
@@ -629,19 +629,19 @@ function generatePalette(baseHex) {
         colors: []
     };
 
-    // Generate variations that preserve the base color's character
+    // Generate variations with more color distinction
     // Main pastel (strongest color presence)
-    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 40), 85);
+    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.65, 55), 82);
 
-    // Lighter version of base
-    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.35, 30), 92);
+    // Lighter version of base - still recognizable
+    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 45), 88);
 
-    // Analogous colors (nearby on color wheel) - keep some saturation
-    const analogous1 = hslToHex((hsl.h + 30) % 360, Math.min(hsl.s * 0.4, 35), 87);
-    const analogous2 = hslToHex((hsl.h - 30 + 360) % 360, Math.min(hsl.s * 0.4, 35), 89);
+    // Analogous colors (nearby on color wheel) - good saturation
+    const analogous1 = hslToHex((hsl.h + 25) % 360, Math.min(hsl.s * 0.55, 50), 83);
+    const analogous2 = hslToHex((hsl.h - 25 + 360) % 360, Math.min(hsl.s * 0.55, 50), 85);
 
-    // Soft complementary accent
-    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.25, 20), 90);
+    // Soft complementary accent - subtle but visible
+    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.35, 30), 88);
 
     // Warm neutral from theme
     const warmNeutral = '#f5ebe0';
@@ -754,15 +754,24 @@ function generateSyrupArt(color, syrupId) {
 
     // Use seed to determine layout style and number of shapes
     const layoutStyle = Math.floor(seededRandom(seed) * 5); // 0-4 different layouts
-    const numShapes = 4 + Math.floor(seededRandom(seed + 1) * 4); // 4-7 shapes
+    const numShapes = 6 + Math.floor(seededRandom(seed + 1) * 5); // 6-10 shapes
     const layers = [];
 
-    // Helper to get random position within bounds
-    const randX = (s) => width * (0.1 + seededRandom(s) * 0.8);
-    const randY = (s) => height * (0.1 + seededRandom(s) * 0.8);
+    // Helper to get random position - expanded scatter range
+    const randX = (s) => width * (-0.1 + seededRandom(s) * 1.2); // allow blobs to extend past edges
+    const randY = (s) => height * (-0.1 + seededRandom(s) * 1.2);
     const randSize = (s, min, max) => min + seededRandom(s) * (max - min);
-    const randPoints = (s) => 4 + Math.floor(seededRandom(s) * 4); // 4-7 points
-    const randVariation = (s) => 0.25 + seededRandom(s) * 0.35; // 0.25-0.6
+    const randPoints = (s) => 5 + Math.floor(seededRandom(s) * 4); // 5-8 points for wavier shapes
+    const randVariation = (s) => 0.35 + seededRandom(s) * 0.4; // 0.35-0.75 for more wavy edges
+    // Shape variety helpers - subtle stretch and rotation
+    const randStretch = (s) => {
+        // Keep stretch subtle: 0.8-1.25 range for organic look
+        const r = seededRandom(s);
+        if (r < 0.35) return 0.8 + seededRandom(s + 0.5) * 0.1; // slightly tall (0.8-0.9)
+        if (r < 0.65) return 0.9 + seededRandom(s + 0.5) * 0.2; // roundish (0.9-1.1)
+        return 1.1 + seededRandom(s + 0.5) * 0.15; // slightly wide (1.1-1.25)
+    };
+    const randRotation = (s) => seededRandom(s) * Math.PI * 2; // full rotation range
 
     // Shuffle color indices based on seed for variety
     const colorIndices = [0, 1, 2, 3, 4, 5];
@@ -775,7 +784,7 @@ function generateSyrupArt(color, syrupId) {
     const bgX = width * (0.3 + seededRandom(seed + 10) * 0.4);
     const bgY = height * (0.3 + seededRandom(seed + 11) * 0.4);
     layers.push({
-        path: generateBlobPath(bgX, bgY, randSize(seed + 12, 70, 100), randPoints(seed + 13), seed + 14, randVariation(seed + 15)),
+        path: generateBlobPath(bgX, bgY, randSize(seed + 12, 70, 100), randPoints(seed + 13), seed + 14, randVariation(seed + 15), randStretch(seed + 16), randRotation(seed + 17)),
         color: palette.colors[6] // warm neutral background
     });
 
@@ -820,14 +829,14 @@ function generateSyrupArt(color, syrupId) {
         const colorIdx = colorIndices[i % colorIndices.length];
 
         layers.push({
-            path: generateBlobPath(cx, cy, radius, randPoints(shapeSeed + 3), shapeSeed + 4, randVariation(shapeSeed + 5)),
+            path: generateBlobPath(cx, cy, radius, randPoints(shapeSeed + 3), shapeSeed + 4, randVariation(shapeSeed + 5), randStretch(shapeSeed + 6), randRotation(shapeSeed + 7)),
             color: palette.colors[colorIdx],
             shadow: true
         });
     }
 
-    // Optionally add 1-2 small accent shapes
-    const numAccents = Math.floor(seededRandom(seed + 900) * 3); // 0-2 accents
+    // Add small accent shapes for more coverage
+    const numAccents = 2 + Math.floor(seededRandom(seed + 900) * 3); // 2-4 accents
     for (let i = 0; i < numAccents; i++) {
         const accentSeed = seed + 1000 + i * 50;
         layers.push({
@@ -837,7 +846,9 @@ function generateSyrupArt(color, syrupId) {
                 randSize(accentSeed + 2, 15, 30),
                 randPoints(accentSeed + 3),
                 accentSeed + 4,
-                randVariation(accentSeed + 5)
+                randVariation(accentSeed + 5),
+                randStretch(accentSeed + 6),
+                randRotation(accentSeed + 7)
             ),
             color: palette.colors[colorIndices[(numShapes + i) % colorIndices.length]],
             shadow: true

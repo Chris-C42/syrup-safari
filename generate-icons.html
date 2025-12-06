@@ -44,6 +44,11 @@
             font-size: 12px;
         }
         .icon-item a:hover { background: #8fa374; }
+        #loading {
+            text-align: center;
+            padding: 40px;
+            color: #8b7355;
+        }
     </style>
 </head>
 <body>
@@ -52,119 +57,80 @@
     <div class="instructions">
         <h3>Instructions:</h3>
         <ol>
-            <li>Right-click on each icon below and select "Save image as..."</li>
-            <li>Save each icon with the filename shown (e.g., icon-192.png)</li>
-            <li>Place all icons in the <code>icons/</code> folder</li>
+            <li>Click "Download" on each icon to save it</li>
+            <li>Save each icon to the <code>icons/</code> folder</li>
+            <li>Replace existing icons with these new syrup bottle icons</li>
         </ol>
-        <p>Or click the "Download" links below each icon.</p>
     </div>
 
+    <div id="loading">Loading SVG icon...</div>
     <div class="icons-grid" id="iconsGrid"></div>
 
     <script>
         const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const svgPath = 'syrup_safari_icons/syrup_bottle/syrup_bottle.svg';
 
-        function drawIcon(canvas, size) {
-            const ctx = canvas.getContext('2d');
-            canvas.width = size;
-            canvas.height = size;
+        // Load SVG and convert to image
+        fetch(svgPath)
+            .then(response => response.text())
+            .then(svgText => {
+                // Create a blob URL from the SVG
+                const blob = new Blob([svgText], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
 
-            // Background gradient
-            const bgGrad = ctx.createLinearGradient(0, 0, size, size);
-            bgGrad.addColorStop(0, '#f5ebe0');
-            bgGrad.addColorStop(1, '#e8ddd4');
+                const img = new Image();
+                img.onload = () => {
+                    document.getElementById('loading').style.display = 'none';
+                    generateIcons(img);
+                    URL.revokeObjectURL(url);
+                };
+                img.src = url;
+            })
+            .catch(err => {
+                document.getElementById('loading').textContent = 'Error loading SVG: ' + err.message;
+            });
 
-            // Rounded rectangle background
-            const radius = size * 0.2;
-            ctx.beginPath();
-            ctx.roundRect(0, 0, size, size, radius);
-            ctx.fillStyle = bgGrad;
-            ctx.fill();
+        function generateIcons(img) {
+            const grid = document.getElementById('iconsGrid');
 
-            // Scale factor
-            const s = size / 512;
+            sizes.forEach(size => {
+                const item = document.createElement('div');
+                item.className = 'icon-item';
 
-            // Syrup drop gradient
-            const dropGrad = ctx.createLinearGradient(256 * s, 80 * s, 256 * s, 460 * s);
-            dropGrad.addColorStop(0, '#dda15e');
-            dropGrad.addColorStop(1, '#bc6c25');
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
 
-            // Draw syrup drop
-            ctx.beginPath();
-            ctx.moveTo(256 * s, 100 * s);
-            ctx.bezierCurveTo(220 * s, 100 * s, 200 * s, 150 * s, 200 * s, 180 * s);
-            ctx.lineTo(200 * s, 240 * s);
-            ctx.bezierCurveTo(160 * s, 280 * s, 140 * s, 340 * s, 140 * s, 380 * s);
-            ctx.bezierCurveTo(140 * s, 440 * s, 190 * s, 460 * s, 256 * s, 460 * s);
-            ctx.bezierCurveTo(322 * s, 460 * s, 372 * s, 440 * s, 372 * s, 380 * s);
-            ctx.bezierCurveTo(372 * s, 340 * s, 352 * s, 280 * s, 312 * s, 240 * s);
-            ctx.lineTo(312 * s, 180 * s);
-            ctx.bezierCurveTo(312 * s, 150 * s, 292 * s, 100 * s, 256 * s, 100 * s);
-            ctx.fillStyle = dropGrad;
-            ctx.fill();
+                // Fill with app background color for rounded corners effect
+                const radius = size * 0.2;
+                ctx.beginPath();
+                ctx.roundRect(0, 0, size, size, radius);
+                ctx.fillStyle = '#f5ebe0';
+                ctx.fill();
+                ctx.clip();
 
-            // Leaf gradient
-            const leafGrad = ctx.createLinearGradient(320 * s, 100 * s, 420 * s, 250 * s);
-            leafGrad.addColorStop(0, '#a3b18a');
-            leafGrad.addColorStop(1, '#8fa374');
+                // Draw SVG centered with padding
+                const padding = size * 0.1;
+                const drawSize = size - (padding * 2);
+                ctx.drawImage(img, padding, padding, drawSize, drawSize);
 
-            // Draw leaf
-            ctx.beginPath();
-            ctx.moveTo(330 * s, 130 * s);
-            ctx.bezierCurveTo(370 * s, 140 * s, 400 * s, 180 * s, 400 * s, 220 * s);
-            ctx.bezierCurveTo(400 * s, 260 * s, 370 * s, 280 * s, 340 * s, 280 * s);
-            ctx.bezierCurveTo(320 * s, 280 * s, 310 * s, 260 * s, 310 * s, 240 * s);
-            ctx.bezierCurveTo(310 * s, 200 * s, 340 * s, 170 * s, 360 * s, 150 * s);
-            ctx.bezierCurveTo(340 * s, 170 * s, 300 * s, 200 * s, 300 * s, 250 * s);
-            ctx.bezierCurveTo(300 * s, 290 * s, 320 * s, 300 * s, 350 * s, 300 * s);
-            ctx.bezierCurveTo(400 * s, 300 * s, 420 * s, 260 * s, 420 * s, 210 * s);
-            ctx.bezierCurveTo(420 * s, 150 * s, 370 * s, 120 * s, 330 * s, 130 * s);
-            ctx.fillStyle = leafGrad;
-            ctx.fill();
+                const filename = `icon-${size}.png`;
 
-            // Highlight on drop
-            ctx.beginPath();
-            ctx.ellipse(230 * s, 220 * s, 15 * s, 35 * s, -0.2, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.fill();
+                const p = document.createElement('p');
+                p.textContent = filename;
 
-            // Small decorative circles
-            ctx.beginPath();
-            ctx.arc(185 * s, 160 * s, 12 * s, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(163, 177, 138, 0.5)';
-            ctx.fill();
+                const link = document.createElement('a');
+                link.textContent = 'Download';
+                link.download = filename;
+                link.href = canvas.toDataURL('image/png');
 
-            ctx.beginPath();
-            ctx.arc(165 * s, 190 * s, 8 * s, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(163, 177, 138, 0.3)';
-            ctx.fill();
+                item.appendChild(canvas);
+                item.appendChild(p);
+                item.appendChild(link);
+                grid.appendChild(item);
+            });
         }
-
-        // Generate all icons
-        const grid = document.getElementById('iconsGrid');
-
-        sizes.forEach(size => {
-            const item = document.createElement('div');
-            item.className = 'icon-item';
-
-            const canvas = document.createElement('canvas');
-            drawIcon(canvas, size);
-
-            const filename = `icon-${size}.png`;
-
-            const p = document.createElement('p');
-            p.textContent = filename;
-
-            const link = document.createElement('a');
-            link.textContent = 'Download';
-            link.download = filename;
-            link.href = canvas.toDataURL('image/png');
-
-            item.appendChild(canvas);
-            item.appendChild(p);
-            item.appendChild(link);
-            grid.appendChild(item);
-        });
     </script>
 </body>
 </html>
