@@ -754,7 +754,7 @@ function generateSyrupArt(color, syrupId) {
 
     // Use seed to determine layout style and number of shapes
     const layoutStyle = Math.floor(seededRandom(seed) * 5); // 0-4 different layouts
-    const numShapes = 6 + Math.floor(seededRandom(seed + 1) * 5); // 6-10 shapes
+    const numShapes = 10 + Math.floor(seededRandom(seed + 1) * 10); // 6-10 shapes
     const layers = [];
 
     // Helper to get random position - expanded scatter range
@@ -836,7 +836,7 @@ function generateSyrupArt(color, syrupId) {
     }
 
     // Add small accent shapes for more coverage
-    const numAccents = 2 + Math.floor(seededRandom(seed + 900) * 3); // 2-4 accents
+    const numAccents = 5 + Math.floor(seededRandom(seed + 900) * 3); // 2-4 accents
     for (let i = 0; i < numAccents; i++) {
         const accentSeed = seed + 1000 + i * 50;
         layers.push({
