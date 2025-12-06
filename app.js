@@ -6,6 +6,253 @@
 // DATA & STATE
 // =============================================
 const STORAGE_KEY = 'syrupSafari_syrups';
+const ACHIEVEMENTS_KEY = 'syrupSafari_achievements';
+
+// =============================================
+// ACHIEVEMENT DEFINITIONS
+// =============================================
+const ACHIEVEMENTS = {
+    // Creation Achievements
+    first_drip: {
+        id: 'first_drip',
+        name: 'First Drip',
+        description: 'Create your first syrup recipe',
+        icon: '🍯',
+        category: 'creation',
+        secret: false
+    },
+    getting_sticky: {
+        id: 'getting_sticky',
+        name: 'Getting Sticky',
+        description: 'Create 5 syrup recipes',
+        icon: '🥄',
+        category: 'creation',
+        secret: false
+    },
+    sweet_obsession: {
+        id: 'sweet_obsession',
+        name: 'Sweet Obsession',
+        description: 'Create 10 syrup recipes',
+        icon: '🧪',
+        category: 'creation',
+        secret: false
+    },
+    syrup_sommelier: {
+        id: 'syrup_sommelier',
+        name: 'Syrup Sommelier',
+        description: 'Create 25 syrup recipes',
+        icon: '🎩',
+        category: 'creation',
+        secret: false
+    },
+    master_of_the_pour: {
+        id: 'master_of_the_pour',
+        name: 'Master of the Pour',
+        description: 'Create 50 syrup recipes',
+        icon: '👑',
+        category: 'creation',
+        secret: false
+    },
+
+    // Rating Achievements
+    harsh_critic: {
+        id: 'harsh_critic',
+        name: 'Harsh Critic',
+        description: 'Give a syrup a 1-heart rating',
+        icon: '💔',
+        category: 'rating',
+        secret: false
+    },
+    five_heart_chef: {
+        id: 'five_heart_chef',
+        name: 'Five Heart Chef',
+        description: 'Create a 5-heart masterpiece',
+        icon: '❤️',
+        category: 'rating',
+        secret: false
+    },
+    quality_control: {
+        id: 'quality_control',
+        name: 'Quality Control',
+        description: 'Rate 10 different syrups',
+        icon: '📋',
+        category: 'rating',
+        secret: false
+    },
+    perfectionist: {
+        id: 'perfectionist',
+        name: 'Perfectionist',
+        description: 'Have 5 syrups all rated 5 hearts',
+        icon: '✨',
+        category: 'rating',
+        secret: false
+    },
+
+    // Ingredient Achievements
+    minimalist: {
+        id: 'minimalist',
+        name: 'Minimalist',
+        description: 'Create a syrup with only 2 ingredients',
+        icon: '🎯',
+        category: 'ingredients',
+        secret: false
+    },
+    mad_scientist: {
+        id: 'mad_scientist',
+        name: 'Mad Scientist',
+        description: 'Create a syrup with 8+ ingredients',
+        icon: '🔬',
+        category: 'ingredients',
+        secret: false
+    },
+    herb_whisperer: {
+        id: 'herb_whisperer',
+        name: 'Herb Whisperer',
+        description: 'Use mint, basil, rosemary, or thyme in a syrup',
+        icon: '🌿',
+        category: 'ingredients',
+        secret: false
+    },
+    spice_trader: {
+        id: 'spice_trader',
+        name: 'Spice Trader',
+        description: 'Use cinnamon, cardamom, ginger, or clove',
+        icon: '🫚',
+        category: 'ingredients',
+        secret: false
+    },
+    citrus_burst: {
+        id: 'citrus_burst',
+        name: 'Citrus Burst',
+        description: 'Create a syrup with lemon, lime, or orange',
+        icon: '🍋',
+        category: 'ingredients',
+        secret: false
+    },
+
+    // Tag & Organization Achievements
+    tag_enthusiast: {
+        id: 'tag_enthusiast',
+        name: 'Tag Enthusiast',
+        description: 'Use 5 or more tags on a single syrup',
+        icon: '🏷️',
+        category: 'organization',
+        secret: false
+    },
+    well_organized: {
+        id: 'well_organized',
+        name: 'Well Organized',
+        description: 'Have syrups using at least 5 different tags',
+        icon: '📁',
+        category: 'organization',
+        secret: false
+    },
+    flavor_explorer: {
+        id: 'flavor_explorer',
+        name: 'Flavor Explorer',
+        description: 'Use Floral, Fruity, Spicy, Herbal, and Citrus tags',
+        icon: '🧭',
+        category: 'organization',
+        secret: false
+    },
+
+    // Collection Achievements
+    rainbow_collection: {
+        id: 'rainbow_collection',
+        name: 'Rainbow Collection',
+        description: 'Have syrups in 7 distinctly different colors',
+        icon: '🌈',
+        category: 'collection',
+        secret: false
+    },
+    seasonal_sweetness: {
+        id: 'seasonal_sweetness',
+        name: 'Seasonal Sweetness',
+        description: 'Create syrups tagged Spring, Summer, Fall, and Winter',
+        icon: '🍂',
+        category: 'collection',
+        secret: true
+    },
+
+    // Special & Secret Achievements
+    night_owl: {
+        id: 'night_owl',
+        name: 'Night Owl',
+        description: 'Create a syrup between midnight and 4am',
+        icon: '🦉',
+        category: 'special',
+        secret: true
+    },
+    early_bird: {
+        id: 'early_bird',
+        name: 'Early Bird',
+        description: 'Create a syrup between 5am and 7am',
+        icon: '🐦',
+        category: 'special',
+        secret: true
+    },
+    backup_believer: {
+        id: 'backup_believer',
+        name: 'Backup Believer',
+        description: 'Export your syrup collection',
+        icon: '💾',
+        category: 'special',
+        secret: false
+    },
+    data_archeologist: {
+        id: 'data_archeologist',
+        name: 'Data Archeologist',
+        description: 'Import a syrup collection',
+        icon: '📦',
+        category: 'special',
+        secret: false
+    },
+    second_chance: {
+        id: 'second_chance',
+        name: 'Second Chance',
+        description: 'Edit a syrup after creating it',
+        icon: '✏️',
+        category: 'special',
+        secret: true
+    },
+    indecisive: {
+        id: 'indecisive',
+        name: 'Indecisive',
+        description: 'Edit the same syrup 5 times',
+        icon: '🤔',
+        category: 'special',
+        secret: true
+    },
+    sweet_tooth: {
+        id: 'sweet_tooth',
+        name: 'Sweet Tooth',
+        description: 'Use sugar, honey, maple, or agave in 5 syrups',
+        icon: '🦷',
+        category: 'special',
+        secret: true
+    },
+    naming_master: {
+        id: 'naming_master',
+        name: 'Naming Master',
+        description: 'Create a syrup with a name longer than 30 characters',
+        icon: '📜',
+        category: 'special',
+        secret: true
+    },
+    storyteller: {
+        id: 'storyteller',
+        name: 'Storyteller',
+        description: 'Write a description longer than 200 characters',
+        icon: '📖',
+        category: 'special',
+        secret: true
+    }
+};
+
+// Achievement state
+let unlockedAchievements = {};
+let editCounts = {}; // Track edit counts per syrup for "Indecisive" achievement
+let newlyUnlocked = []; // Queue for showing unlock notifications
 
 let syrups = [];
 let currentSyrupId = null;
@@ -323,6 +570,276 @@ function loadSyrups() {
 
 function saveSyrups() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(syrups));
+}
+
+// =============================================
+// ACHIEVEMENTS - Storage & Core Functions
+// =============================================
+function loadAchievements() {
+    const stored = localStorage.getItem(ACHIEVEMENTS_KEY);
+    if (stored) {
+        try {
+            const data = JSON.parse(stored);
+            unlockedAchievements = data.unlocked || {};
+            editCounts = data.editCounts || {};
+        } catch (e) {
+            console.error('Error loading achievements:', e);
+            unlockedAchievements = {};
+            editCounts = {};
+        }
+    }
+}
+
+function saveAchievements() {
+    localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify({
+        unlocked: unlockedAchievements,
+        editCounts: editCounts
+    }));
+}
+
+function unlockAchievement(achievementId) {
+    if (unlockedAchievements[achievementId]) return false; // Already unlocked
+
+    const achievement = ACHIEVEMENTS[achievementId];
+    if (!achievement) return false;
+
+    unlockedAchievements[achievementId] = {
+        unlockedAt: new Date().toISOString()
+    };
+    saveAchievements();
+
+    // Queue for notification
+    newlyUnlocked.push(achievement);
+    showNextAchievementNotification();
+
+    return true;
+}
+
+function showNextAchievementNotification() {
+    if (newlyUnlocked.length === 0) return;
+
+    // Check if there's already a notification showing
+    const existing = document.querySelector('.achievement-notification');
+    if (existing) return;
+
+    const achievement = newlyUnlocked.shift();
+    showAchievementUnlock(achievement);
+}
+
+function showAchievementUnlock(achievement) {
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+        <div class="achievement-notification-content">
+            <div class="achievement-notification-icon">${achievement.icon}</div>
+            <div class="achievement-notification-text">
+                <span class="achievement-notification-label">Achievement Unlocked!</span>
+                <span class="achievement-notification-name">${escapeHtml(achievement.name)}</span>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        notification.classList.add('show');
+    });
+
+    // Remove after animation
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+            showNextAchievementNotification(); // Show next if queued
+        }, 500);
+    }, 3500);
+}
+
+// =============================================
+// ACHIEVEMENTS - Checking Functions
+// =============================================
+function checkAchievements(context = {}) {
+    const { action, syrup, isNew } = context;
+
+    // Creation achievements
+    if (action === 'save' && isNew) {
+        checkCreationAchievements();
+        checkTimeAchievements();
+    }
+
+    // All save actions (new or edit)
+    if (action === 'save' && syrup) {
+        checkSyrupSpecificAchievements(syrup);
+        checkCollectionAchievements();
+
+        // Track edits
+        if (!isNew && syrup.id) {
+            editCounts[syrup.id] = (editCounts[syrup.id] || 0) + 1;
+            saveAchievements();
+
+            // Second Chance - first edit
+            if (editCounts[syrup.id] === 1) {
+                unlockAchievement('second_chance');
+            }
+            // Indecisive - 5 edits
+            if (editCounts[syrup.id] >= 5) {
+                unlockAchievement('indecisive');
+            }
+        }
+    }
+
+    // Export/Import
+    if (action === 'export') {
+        unlockAchievement('backup_believer');
+    }
+    if (action === 'import') {
+        unlockAchievement('data_archeologist');
+    }
+}
+
+function checkCreationAchievements() {
+    const count = syrups.length;
+
+    if (count >= 1) unlockAchievement('first_drip');
+    if (count >= 5) unlockAchievement('getting_sticky');
+    if (count >= 10) unlockAchievement('sweet_obsession');
+    if (count >= 25) unlockAchievement('syrup_sommelier');
+    if (count >= 50) unlockAchievement('master_of_the_pour');
+}
+
+function checkTimeAchievements() {
+    const hour = new Date().getHours();
+
+    // Night Owl: midnight to 4am (0-3)
+    if (hour >= 0 && hour <= 3) {
+        unlockAchievement('night_owl');
+    }
+    // Early Bird: 5am to 7am (5-6)
+    if (hour >= 5 && hour <= 6) {
+        unlockAchievement('early_bird');
+    }
+}
+
+function checkSyrupSpecificAchievements(syrup) {
+    // Rating achievements
+    if (syrup.rating === 1) {
+        unlockAchievement('harsh_critic');
+    }
+    if (syrup.rating === 5) {
+        unlockAchievement('five_heart_chef');
+    }
+
+    // Ingredient achievements
+    const ingredients = syrup.ingredients || [];
+    const ingredientCount = ingredients.filter(i => i.name.trim()).length;
+    const ingredientNames = ingredients.map(i => i.name.toLowerCase()).join(' ');
+
+    if (ingredientCount === 2) {
+        unlockAchievement('minimalist');
+    }
+    if (ingredientCount >= 8) {
+        unlockAchievement('mad_scientist');
+    }
+
+    // Herb Whisperer
+    if (/\b(mint|basil|rosemary|thyme)\b/i.test(ingredientNames)) {
+        unlockAchievement('herb_whisperer');
+    }
+
+    // Spice Trader
+    if (/\b(cinnamon|cardamom|ginger|clove)\b/i.test(ingredientNames)) {
+        unlockAchievement('spice_trader');
+    }
+
+    // Citrus Burst
+    if (/\b(lemon|lime|orange|grapefruit|citrus)\b/i.test(ingredientNames)) {
+        unlockAchievement('citrus_burst');
+    }
+
+    // Tag achievements
+    if (syrup.tags.length >= 5) {
+        unlockAchievement('tag_enthusiast');
+    }
+
+    // Naming Master
+    if (syrup.name.length > 30) {
+        unlockAchievement('naming_master');
+    }
+
+    // Storyteller
+    if (syrup.description && syrup.description.length > 200) {
+        unlockAchievement('storyteller');
+    }
+}
+
+function checkCollectionAchievements() {
+    // Quality Control - 10 rated syrups
+    const ratedSyrups = syrups.filter(s => s.rating > 0);
+    if (ratedSyrups.length >= 10) {
+        unlockAchievement('quality_control');
+    }
+
+    // Perfectionist - 5 syrups rated 5 hearts
+    const fiveHeartSyrups = syrups.filter(s => s.rating === 5);
+    if (fiveHeartSyrups.length >= 5) {
+        unlockAchievement('perfectionist');
+    }
+
+    // Well Organized - 5 different tags used
+    const allTags = new Set(syrups.flatMap(s => s.tags));
+    if (allTags.size >= 5) {
+        unlockAchievement('well_organized');
+    }
+
+    // Flavor Explorer - use all 5 main flavor tags
+    const flavorTags = ['floral', 'fruity', 'spicy', 'herbal', 'citrus'];
+    const lowerTags = [...allTags].map(t => t.toLowerCase());
+    if (flavorTags.every(ft => lowerTags.includes(ft))) {
+        unlockAchievement('flavor_explorer');
+    }
+
+    // Seasonal Sweetness - all 4 seasons
+    const seasonTags = ['spring', 'summer', 'fall', 'winter'];
+    if (seasonTags.every(st => lowerTags.includes(st))) {
+        unlockAchievement('seasonal_sweetness');
+    }
+
+    // Rainbow Collection - 7 distinct colors
+    const colors = [...new Set(syrups.map(s => s.color))];
+    const distinctHues = getDistinctColorCount(colors);
+    if (distinctHues >= 7) {
+        unlockAchievement('rainbow_collection');
+    }
+
+    // Sweet Tooth - sugar/honey/maple/agave in 5 syrups
+    const sweetSyrups = syrups.filter(s => {
+        const ingredients = (s.ingredients || []).map(i => i.name.toLowerCase()).join(' ');
+        return /\b(sugar|honey|maple|agave)\b/i.test(ingredients);
+    });
+    if (sweetSyrups.length >= 5) {
+        unlockAchievement('sweet_tooth');
+    }
+}
+
+function getDistinctColorCount(colors) {
+    // Convert colors to hue values and count distinct hue ranges
+    const hueRanges = new Set();
+
+    colors.forEach(color => {
+        const hsl = hexToHsl(color);
+        // Group hues into 7 ranges (roughly: red, orange, yellow, green, cyan, blue, purple)
+        const hueRange = Math.floor(hsl.h / 52); // 360 / 7 ≈ 51.4
+        hueRanges.add(hueRange);
+    });
+
+    return hueRanges.size;
+}
+
+function getAchievementProgress() {
+    const total = Object.keys(ACHIEVEMENTS).length;
+    const unlocked = Object.keys(unlockedAchievements).length;
+    return { total, unlocked, percentage: Math.round((unlocked / total) * 100) };
 }
 
 // =============================================
@@ -952,11 +1469,15 @@ function saveSyrup() {
         updatedAt: new Date().toISOString()
     };
 
+    const isNew = !currentSyrupId;
+    let savedSyrup;
+
     if (currentSyrupId) {
         // Update existing
         const index = syrups.findIndex(s => s.id === currentSyrupId);
         if (index !== -1) {
             syrups[index] = { ...syrups[index], ...syrupData };
+            savedSyrup = syrups[index];
             showToast('Syrup updated!');
         }
     } else {
@@ -967,10 +1488,17 @@ function saveSyrup() {
             createdAt: new Date().toISOString()
         };
         syrups.unshift(newSyrup);
+        savedSyrup = newSyrup;
         showToast('Syrup added!');
     }
 
     saveSyrups();
+
+    // Check achievements after save
+    if (savedSyrup) {
+        checkAchievements({ action: 'save', syrup: savedSyrup, isNew });
+    }
+
     goHome();
 }
 
@@ -1214,6 +1742,7 @@ function exportData() {
     URL.revokeObjectURL(url);
 
     showToast('Collection exported!');
+    checkAchievements({ action: 'export' });
 }
 
 function importData(file) {
@@ -1231,6 +1760,7 @@ function importData(file) {
                     saveSyrups();
                     renderSyrups();
                     showToast(`Imported ${newSyrups.length} syrup(s)!`);
+                    checkAchievements({ action: 'import' });
                 } else {
                     showToast('No new syrups to import');
                 }
@@ -1286,7 +1816,10 @@ function showToast(message) {
 function initEventListeners() {
     // Navigation
     elements.addBtn.addEventListener('click', openAddForm);
-    elements.settingsBtn.addEventListener('click', () => showView('settingsView'));
+    elements.settingsBtn.addEventListener('click', () => {
+        showView('settingsView');
+        renderAchievements();
+    });
     elements.backBtn.addEventListener('click', goHome);
     elements.detailBackBtn.addEventListener('click', goHome);
     elements.settingsBackBtn.addEventListener('click', goHome);
@@ -1413,10 +1946,77 @@ async function registerServiceWorker() {
 }
 
 // =============================================
+// ACHIEVEMENTS UI RENDERING
+// =============================================
+function renderAchievements() {
+    const achievementsGrid = document.getElementById('achievementsGrid');
+    const achievementProgress = document.getElementById('achievementProgress');
+
+    if (!achievementsGrid) return;
+
+    const progress = getAchievementProgress();
+
+    // Update progress bar
+    if (achievementProgress) {
+        achievementProgress.innerHTML = `
+            <div class="achievement-progress-bar">
+                <div class="achievement-progress-fill" style="width: ${progress.percentage}%"></div>
+            </div>
+            <div class="achievement-progress-text">
+                ${progress.unlocked} / ${progress.total} achievements unlocked (${progress.percentage}%)
+            </div>
+        `;
+    }
+
+    // Group achievements by category
+    const categories = {
+        creation: { name: 'Creation', icon: '🍯', achievements: [] },
+        rating: { name: 'Rating', icon: '❤️', achievements: [] },
+        ingredients: { name: 'Ingredients', icon: '🥄', achievements: [] },
+        organization: { name: 'Organization', icon: '📁', achievements: [] },
+        collection: { name: 'Collection', icon: '🌈', achievements: [] },
+        special: { name: 'Special', icon: '✨', achievements: [] }
+    };
+
+    Object.values(ACHIEVEMENTS).forEach(achievement => {
+        if (categories[achievement.category]) {
+            categories[achievement.category].achievements.push(achievement);
+        }
+    });
+
+    // Render achievements
+    achievementsGrid.innerHTML = Object.entries(categories).map(([key, category]) => `
+        <div class="achievement-category">
+            <h4 class="achievement-category-title">
+                <span class="achievement-category-icon">${category.icon}</span>
+                ${category.name}
+            </h4>
+            <div class="achievement-list">
+                ${category.achievements.map(achievement => {
+                    const isUnlocked = !!unlockedAchievements[achievement.id];
+                    const isSecret = achievement.secret && !isUnlocked;
+                    return `
+                        <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'} ${isSecret ? 'secret' : ''}">
+                            <div class="achievement-icon">${isSecret ? '❓' : achievement.icon}</div>
+                            <div class="achievement-info">
+                                <span class="achievement-name">${isSecret ? '???' : escapeHtml(achievement.name)}</span>
+                                <span class="achievement-desc">${isSecret ? 'Secret achievement' : escapeHtml(achievement.description)}</span>
+                            </div>
+                            ${isUnlocked ? '<div class="achievement-check">✓</div>' : ''}
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+// =============================================
 // INITIALIZATION
 // =============================================
 function init() {
     loadSyrups();
+    loadAchievements();
     renderSyrups();
     initEventListeners();
     registerServiceWorker();

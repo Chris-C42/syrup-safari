@@ -3,7 +3,7 @@
    Enables offline support and caching
    ============================================= */
 
-const CACHE_NAME = 'syrup-safari-v12';
+const CACHE_NAME = 'syrup-safari-v13';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
