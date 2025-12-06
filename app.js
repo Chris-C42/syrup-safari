@@ -631,17 +631,17 @@ function generatePalette(baseHex) {
 
     // Generate variations with more color distinction
     // Main pastel (strongest color presence)
-    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.65, 55), 82);
+    const mainPastel = hslToHex(hsl.h, Math.min(hsl.s * 0.75, 65), 78);
 
     // Lighter version of base - still recognizable
-    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 45), 88);
+    const lightTint = hslToHex(hsl.h, Math.min(hsl.s * 0.5, 45), 83);
 
     // Analogous colors (nearby on color wheel) - good saturation
-    const analogous1 = hslToHex((hsl.h + 25) % 360, Math.min(hsl.s * 0.55, 50), 83);
-    const analogous2 = hslToHex((hsl.h - 25 + 360) % 360, Math.min(hsl.s * 0.55, 50), 85);
+    const analogous1 = hslToHex((hsl.h + 25) % 360, Math.min(hsl.s * 0.65, 55), 80);
+    const analogous2 = hslToHex((hsl.h - 25 + 360) % 360, Math.min(hsl.s * 0.56, 55), 83);
 
     // Soft complementary accent - subtle but visible
-    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.35, 30), 88);
+    const complement = hslToHex((hsl.h + 180) % 360, Math.min(hsl.s * 0.45, 35), 85);
 
     // Warm neutral from theme
     const warmNeutral = '#f5ebe0';
