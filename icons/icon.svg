@@ -11,7 +11,7 @@
    viewBox="0 0 64 64"
    version="1.1"
    id="svg262"
-   sodipodi:docname="syrup_bottle.svg"
+   sodipodi:docname="icon.svg"
    inkscape:version="0.92.1 r15371">
   <metadata
      id="metadata266">
@@ -21,6 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,8 +39,8 @@
      id="namedview264"
      showgrid="false"
      inkscape:zoom="12.794213"
-     inkscape:cx="-10.364953"
-     inkscape:cy="39.660764"
+     inkscape:cx="39.439327"
+     inkscape:cy="30.382728"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
@@ -655,6 +656,10 @@
      ry="1.6957861"
      id="ellipse176"
      style="fill:#d4b896;stroke-width:0.94210345" />
+  <path
+     id="path194"
+     style="fill:none;stroke:#3d3d3d;stroke-width:1.21294117;stroke-linecap:round;stroke-linejoin:round;opacity:0.702"
+     d="M 27.1679,8.2942391 V 2.8718793 q 0,-1.084472 4.710517,-1.084472 4.710517,0 4.710517,1.084472 V 8.2942391 M 26.225797,13.424255 V 7.7716342 m 11.305241,0 v 5.6526208 m -16.957862,5.652621 q -3.768414,3.768413 -3.768414,11.305241 v 18.842069 q 0,5.652621 3.768414,9.421035 5.652621,3.768413 11.305241,3.768413 5.652621,0 11.305242,-3.768413 3.768413,-3.768414 3.768413,-9.421035 V 30.382117 q 0,-7.536828 -3.768413,-11.305241 V 13.424255 H 20.573176 Z" />
   <ellipse
      cx="31.878418"
      cy="3.6276109"
@@ -692,23 +697,8 @@
        style="fill:none" />
   </g>
   <!-- Bottle outline -->
-  <path
-     d="m 20.573176,19.076876 q -3.768414,3.768413 -3.768414,11.305241 v 18.842069 q 0,5.652621 3.768414,9.421035 5.652621,3.768413 11.305241,3.768413 5.652621,0 11.305242,-3.768413 3.768413,-3.768414 3.768413,-9.421035 V 30.382117 q 0,-7.536828 -3.768413,-11.305241 V 13.424255 H 20.573176 Z"
-     id="path190"
-     inkscape:connector-curvature="0"
-     style="fill:none;stroke:#3d3d3d;stroke-width:1.4131552;stroke-linecap:round;stroke-linejoin:round" />
   <!-- Neck outline -->
-  <path
-     d="M 26.225797,13.424255 V 7.7716342 m 11.305241,0 v 5.6526208"
-     id="path192"
-     inkscape:connector-curvature="0"
-     style="fill:none;stroke:#3d3d3d;stroke-width:1.13052416;stroke-linecap:round" />
   <!-- Cork outline (single, complete) -->
-  <path
-     d="M 27.1679,8.2942391 V 2.8718793 q 0,-1.084472 4.710517,-1.084472 4.710517,0 4.710517,1.084472 v 5.4223598"
-     id="path194"
-     inkscape:connector-curvature="0"
-     style="fill:none;stroke:#3d3d3d;stroke-width:1.21294117;stroke-linecap:round;stroke-linejoin:round" />
   <!-- ================================================ -->
   <!-- LAYER 3: VINE PARTS IN FRONT OF THE BOTTLE -->
   <!-- ================================================ -->
