@@ -260,6 +260,7 @@ let currentTags = [];
 let currentIngredients = [];
 let currentRating = 0;
 let currentColor = '#e8d4d4';
+let currentPhoto = null; // Stores the photo data URL for the current edit session
 
 // Common kitchen measurements
 const MEASUREMENTS = [
@@ -530,6 +531,15 @@ const elements = {
     backBtn: document.getElementById('backBtn'),
     saveBtn: document.getElementById('saveBtn'),
 
+    // Photo
+    photoSection: document.getElementById('photoSection'),
+    photoPreviewContainer: document.getElementById('photoPreviewContainer'),
+    photoPreview: document.getElementById('photoPreview'),
+    photoOverlayBtn: document.getElementById('photoOverlayBtn'),
+    photoInput: document.getElementById('photoInput'),
+    takePhotoBtn: document.getElementById('takePhotoBtn'),
+    removePhotoBtn: document.getElementById('removePhotoBtn'),
+
     // Detail
     detailHeader: document.getElementById('detailHeader'),
     detailContent: document.getElementById('detailContent'),
@@ -570,6 +580,196 @@ function loadSyrups() {
 
 function saveSyrups() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(syrups));
+}
+
+// =============================================
+// INDEXEDDB - Photo Storage
+// =============================================
+const PHOTO_DB_NAME = 'syrupSafari_photos';
+const PHOTO_STORE_NAME = 'photos';
+const PHOTO_DB_VERSION = 1;
+
+let photoDb = null;
+
+async function initPhotoDb() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(PHOTO_DB_NAME, PHOTO_DB_VERSION);
+
+        request.onerror = () => {
+            console.error('Failed to open photo database:', request.error);
+            reject(request.error);
+        };
+
+        request.onsuccess = () => {
+            photoDb = request.result;
+            resolve(photoDb);
+        };
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(PHOTO_STORE_NAME)) {
+                db.createObjectStore(PHOTO_STORE_NAME, { keyPath: 'syrupId' });
+            }
+        };
+    });
+}
+
+async function savePhoto(syrupId, photoData) {
+    if (!photoDb) await initPhotoDb();
+
+    return new Promise((resolve, reject) => {
+        const transaction = photoDb.transaction([PHOTO_STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(PHOTO_STORE_NAME);
+        const request = store.put({ syrupId, photoData, updatedAt: new Date().toISOString() });
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function getPhoto(syrupId) {
+    if (!photoDb) await initPhotoDb();
+
+    return new Promise((resolve, reject) => {
+        const transaction = photoDb.transaction([PHOTO_STORE_NAME], 'readonly');
+        const store = transaction.objectStore(PHOTO_STORE_NAME);
+        const request = store.get(syrupId);
+
+        request.onsuccess = () => {
+            resolve(request.result ? request.result.photoData : null);
+        };
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function deletePhoto(syrupId) {
+    if (!photoDb) await initPhotoDb();
+
+    return new Promise((resolve, reject) => {
+        const transaction = photoDb.transaction([PHOTO_STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(PHOTO_STORE_NAME);
+        const request = store.delete(syrupId);
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// Cache for loaded photos to avoid repeated DB reads
+const photoCache = new Map();
+
+async function getPhotoWithCache(syrupId) {
+    if (photoCache.has(syrupId)) {
+        return photoCache.get(syrupId);
+    }
+    const photo = await getPhoto(syrupId);
+    if (photo) {
+        photoCache.set(syrupId, photo);
+    }
+    return photo;
+}
+
+function clearPhotoCache(syrupId = null) {
+    if (syrupId) {
+        photoCache.delete(syrupId);
+    } else {
+        photoCache.clear();
+    }
+}
+
+// =============================================
+// PHOTO PROCESSING
+// =============================================
+async function processAndResizeImage(file, maxWidth = 800, quality = 0.8) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const img = new Image();
+
+            img.onload = () => {
+                // Calculate new dimensions maintaining aspect ratio
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width;
+                    width = maxWidth;
+                }
+
+                // Create canvas and draw resized image
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convert to JPEG with compression
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = e.target.result;
+        };
+
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+    });
+}
+
+// Update the photo preview UI in edit form
+function updatePhotoPreviewUI() {
+    const hasPhoto = !!currentPhoto;
+    const hasArt = currentSyrupId || currentColor;
+
+    if (hasPhoto) {
+        // Show the photo
+        elements.photoPreview.style.backgroundImage = `url('${currentPhoto}')`;
+        elements.photoPreviewContainer.classList.add('has-content');
+        elements.removePhotoBtn.style.display = 'flex';
+        elements.photoOverlayBtn.querySelector('span').textContent = 'Change Photo';
+    } else if (hasArt) {
+        // Show the algorithmic art preview
+        const artBackground = generateSyrupBackground(currentColor, currentSyrupId || 'preview');
+        elements.photoPreview.style.backgroundImage = `url('${artBackground}')`;
+        elements.photoPreviewContainer.classList.add('has-content');
+        elements.removePhotoBtn.style.display = 'none';
+        elements.photoOverlayBtn.querySelector('span').textContent = 'Add Photo';
+    } else {
+        // Show empty state
+        elements.photoPreview.style.backgroundImage = '';
+        elements.photoPreviewContainer.classList.remove('has-content');
+        elements.removePhotoBtn.style.display = 'none';
+        elements.photoOverlayBtn.querySelector('span').textContent = 'Add Photo';
+    }
+}
+
+// Handle photo file selection
+async function handlePhotoSelect(file) {
+    if (!file || !file.type.startsWith('image/')) {
+        showToast('Please select an image file');
+        return;
+    }
+
+    try {
+        showToast('Processing photo...');
+        const processedPhoto = await processAndResizeImage(file, 800, 0.8);
+        currentPhoto = processedPhoto;
+        updatePhotoPreviewUI();
+        showToast('Photo added!');
+    } catch (error) {
+        console.error('Error processing photo:', error);
+        showToast('Failed to process photo');
+    }
+}
+
+// Remove current photo
+function removeCurrentPhoto() {
+    currentPhoto = null;
+    updatePhotoPreviewUI();
+    showToast('Photo removed');
 }
 
 // =============================================
@@ -868,7 +1068,7 @@ function goHome() {
 // =============================================
 // SYRUP RENDERING
 // =============================================
-function renderSyrups() {
+async function renderSyrups() {
     let filtered = [...syrups];
 
     // Apply search
@@ -929,7 +1129,7 @@ function renderSyrups() {
             const artBackground = generateSyrupBackground(syrup.color, syrup.id);
             return `
             <div class="syrup-card" data-id="${syrup.id}" style="animation-delay: ${index * 0.05}s">
-                <div class="card-color-bar card-art-bg" style="background-image: url('${artBackground}')">
+                <div class="card-color-bar card-art-bg" data-syrup-id="${syrup.id}" style="background-image: url('${artBackground}')">
                     <div class="card-rating">
                         ${renderHearts(syrup.rating, true)}
                     </div>
@@ -952,10 +1152,30 @@ function renderSyrups() {
                 openDetail(card.dataset.id);
             });
         });
+
+        // Load and apply photos asynchronously
+        loadPhotosForCards(filtered);
     }
 
     // Update tags filter
     updateTagsFilter();
+}
+
+// Load photos for rendered cards asynchronously
+async function loadPhotosForCards(syrupsList) {
+    for (const syrup of syrupsList) {
+        try {
+            const photo = await getPhotoWithCache(syrup.id);
+            if (photo) {
+                const cardColorBar = document.querySelector(`.card-color-bar[data-syrup-id="${syrup.id}"]`);
+                if (cardColorBar) {
+                    cardColorBar.style.backgroundImage = `url('${photo}')`;
+                }
+            }
+        } catch (error) {
+            console.error(`Error loading photo for syrup ${syrup.id}:`, error);
+        }
+    }
 }
 
 function renderHearts(rating, small = false) {
@@ -1096,6 +1316,11 @@ function setColor(color, animate = false) {
         setTimeout(() => {
             elements.colorPreview.classList.remove('pulse');
         }, 600);
+    }
+
+    // Update photo preview (shows art when no photo is set)
+    if (!currentPhoto) {
+        updatePhotoPreviewUI();
     }
 }
 
@@ -1413,6 +1638,7 @@ function openAddForm() {
     currentIngredients = [];
     currentRating = 0;
     currentColor = '#e8e4dc';
+    currentPhoto = null;
 
     elements.editTitle.textContent = 'New Syrup';
     elements.syrupForm.reset();
@@ -1420,12 +1646,13 @@ function openAddForm() {
     elements.ingredientsList.innerHTML = '';
     setColor(currentColor);
     updateRatingUI();
+    updatePhotoPreviewUI();
 
     showView('editView');
     elements.syrupName.focus();
 }
 
-function openEditForm(id) {
+async function openEditForm(id) {
     const syrup = syrups.find(s => s.id === id);
     if (!syrup) return;
 
@@ -1438,6 +1665,14 @@ function openEditForm(id) {
     currentRating = syrup.rating;
     currentColor = syrup.color;
 
+    // Load photo from IndexedDB
+    try {
+        currentPhoto = await getPhoto(id);
+    } catch (error) {
+        console.error('Error loading photo:', error);
+        currentPhoto = null;
+    }
+
     elements.editTitle.textContent = 'Edit Syrup';
     elements.syrupName.value = syrup.name;
     elements.syrupDescription.value = syrup.description;
@@ -1447,11 +1682,12 @@ function openEditForm(id) {
     updateRatingUI();
     renderTags();
     renderIngredients();
+    updatePhotoPreviewUI();
 
     showView('editView');
 }
 
-function saveSyrup() {
+async function saveSyrup() {
     const name = elements.syrupName.value.trim();
     if (!name) {
         showToast('Please enter a name');
@@ -1494,8 +1730,22 @@ function saveSyrup() {
 
     saveSyrups();
 
-    // Check achievements after save
+    // Save or delete photo in IndexedDB
     if (savedSyrup) {
+        try {
+            if (currentPhoto) {
+                await savePhoto(savedSyrup.id, currentPhoto);
+                clearPhotoCache(savedSyrup.id);
+            } else {
+                // If no photo, make sure to delete any existing one
+                await deletePhoto(savedSyrup.id);
+                clearPhotoCache(savedSyrup.id);
+            }
+        } catch (error) {
+            console.error('Error saving photo:', error);
+        }
+
+        // Check achievements after save
         checkAchievements({ action: 'save', syrup: savedSyrup, isNew });
     }
 
@@ -1505,7 +1755,7 @@ function saveSyrup() {
 // =============================================
 // DETAIL VIEW
 // =============================================
-function openDetail(id) {
+async function openDetail(id) {
     const syrup = syrups.find(s => s.id === id);
     if (!syrup) return;
 
@@ -1513,8 +1763,19 @@ function openDetail(id) {
     const ingredients = syrup.ingredients || [];
     const artBackground = generateSyrupBackground(syrup.color, syrup.id);
 
+    // Try to load photo
+    let photoBackground = null;
+    try {
+        photoBackground = await getPhotoWithCache(id);
+    } catch (error) {
+        console.error('Error loading photo:', error);
+    }
+
+    // Use photo if available, otherwise use art
+    const backgroundImage = photoBackground || artBackground;
+
     elements.detailContent.innerHTML = `
-        <div class="detail-color-header detail-art-bg" style="background-image: url('${artBackground}')">
+        <div class="detail-color-header detail-art-bg" style="background-image: url('${backgroundImage}')">
             <h2 class="detail-name">${escapeHtml(syrup.name)}</h2>
         </div>
         <div class="detail-rating">
@@ -1560,9 +1821,19 @@ function deleteSyrup() {
     elements.deleteModal.classList.remove('hidden');
 }
 
-function confirmDelete() {
-    syrups = syrups.filter(s => s.id !== currentSyrupId);
+async function confirmDelete() {
+    const syrupIdToDelete = currentSyrupId;
+    syrups = syrups.filter(s => s.id !== syrupIdToDelete);
     saveSyrups();
+
+    // Delete photo from IndexedDB
+    try {
+        await deletePhoto(syrupIdToDelete);
+        clearPhotoCache(syrupIdToDelete);
+    } catch (error) {
+        console.error('Error deleting photo:', error);
+    }
+
     elements.deleteModal.classList.add('hidden');
     showToast('Syrup deleted');
     goHome();
@@ -1875,6 +2146,24 @@ function initEventListeners() {
     // Add ingredient button
     elements.addIngredientBtn.addEventListener('click', addIngredient);
 
+    // Photo handling
+    elements.takePhotoBtn.addEventListener('click', () => {
+        elements.photoInput.click();
+    });
+
+    elements.photoOverlayBtn.addEventListener('click', () => {
+        elements.photoInput.click();
+    });
+
+    elements.photoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handlePhotoSelect(e.target.files[0]);
+            e.target.value = ''; // Reset for next selection
+        }
+    });
+
+    elements.removePhotoBtn.addEventListener('click', removeCurrentPhoto);
+
     // Color - auto-suggest when name field loses focus
     elements.syrupName.addEventListener('blur', updateColorFromName);
     elements.colorPicker.addEventListener('input', (e) => setColor(e.target.value));
@@ -2014,7 +2303,14 @@ function renderAchievements() {
 // =============================================
 // INITIALIZATION
 // =============================================
-function init() {
+async function init() {
+    // Initialize IndexedDB for photos
+    try {
+        await initPhotoDb();
+    } catch (error) {
+        console.error('Failed to initialize photo database:', error);
+    }
+
     loadSyrups();
     loadAchievements();
     renderSyrups();

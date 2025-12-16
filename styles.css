@@ -915,6 +915,134 @@ h3 { font-size: 1.125rem; }
     background: rgba(163, 177, 138, 0.05);
 }
 
+/* Photo Section */
+.photo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.photo-preview-container {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px dashed var(--border-medium);
+    background: var(--bg-secondary);
+}
+
+.photo-preview-container.has-content {
+    border-style: solid;
+    border-color: var(--border-light);
+}
+
+.photo-preview {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.photo-overlay-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(92, 77, 61, 0.4);
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.photo-preview-container:not(.has-content) .photo-overlay-btn {
+    background: transparent;
+    color: var(--text-muted);
+    opacity: 1;
+}
+
+.photo-preview-container.has-content:hover .photo-overlay-btn,
+.photo-preview-container.has-content:focus-within .photo-overlay-btn {
+    opacity: 1;
+}
+
+.photo-overlay-btn svg {
+    width: 32px;
+    height: 32px;
+}
+
+.photo-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.photo-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-light);
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.photo-action-btn svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+}
+
+.photo-action-btn:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-secondary);
+}
+
+.photo-action-btn:active {
+    transform: scale(0.98);
+}
+
+.photo-action-btn.secondary {
+    background: transparent;
+    border-style: dashed;
+    color: var(--text-secondary);
+}
+
+.photo-action-btn.secondary:hover {
+    border-color: #c5221f;
+    color: #c5221f;
+    background: #fce8e6;
+}
+
+.photo-action-btn.secondary:hover svg {
+    color: #c5221f;
+}
+
+.photo-hint {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 /* Color Picker */
 .color-picker-wrapper {
     display: flex;
